@@ -1,0 +1,2471 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fuel Pass – বকশিগঞ্জ উপজেলা</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root {
+  --bg: #f0f4f8;
+  --surface: #ffffff;
+  --surface2: #e8edf3;
+  --primary: #1a4b8c;
+  --primary-light: #2563eb;
+  --primary-dark: #0f2d5a;
+  --accent: #e8a020;
+  --accent-light: #f59e0b;
+  --success: #059669;
+  --danger: #dc2626;
+  --warning: #d97706;
+  --info: #0284c7;
+  --text: #1e293b;
+  --text2: #475569;
+  --text3: #94a3b8;
+  --border: #cbd5e1;
+  --shadow: 0 4px 24px rgba(26,75,140,0.10);
+  --shadow-lg: 0 8px 40px rgba(26,75,140,0.16);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+  --font: 'Hind Siliguri', sans-serif;
+  --font-serif: 'Noto Serif Bengali', serif;
+}
+[data-theme="dark"] {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface2: #21262d;
+  --primary: #2563eb;
+  --primary-light: #3b82f6;
+  --primary-dark: #1d4ed8;
+  --accent: #f59e0b;
+  --text: #e6edf3;
+  --text2: #8b949e;
+  --text3: #484f58;
+  --border: #30363d;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.6);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:var(--font); background:var(--bg); color:var(--text); min-height:100vh; transition:background .3s,color .3s; }
+
+/* ── TOPBAR ── */
+.topbar {
+  background:var(--primary-dark);
+  color:#fff;
+  padding:8px 20px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:12px;
+}
+.topbar-left { display:flex; align-items:center; gap:10px; }
+.bd-flag { width:22px; height:14px; border-radius:2px; overflow:hidden; display:flex; }
+.bd-flag .green { background:#006a4e; flex:1; }
+.bd-flag .red { width:40%; background:#f42a41; border-radius:50%; width:10px; height:10px; margin:auto; position:absolute; left:50%; transform:translateX(-50%); }
+.bd-flag-wrap { position:relative; width:22px; height:14px; }
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, var(--primary-light) 100%);
+  color:#fff;
+  padding: 0 20px;
+  position:sticky; top:0; z-index:100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+.header-inner {
+  max-width:1200px; margin:0 auto;
+  display:flex; align-items:center; justify-content:space-between;
+  height:64px;
+}
+.logo-area { display:flex; align-items:center; gap:12px; }
+.logo-icon {
+  width:44px; height:44px; background:var(--accent);
+  border-radius:10px; display:flex; align-items:center; justify-content:center;
+  font-size:22px; font-weight:700; color:#fff;
+  box-shadow: 0 4px 12px rgba(232,160,32,0.4);
+}
+.logo-text h1 { font-size:16px; font-weight:700; letter-spacing:0.3px; }
+.logo-text p { font-size:11px; opacity:0.8; }
+.header-actions { display:flex; align-items:center; gap:10px; }
+.btn-theme, .btn-admin {
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.25);
+  color:#fff; padding:7px 14px; border-radius:8px;
+  cursor:pointer; font-size:13px; font-family:var(--font);
+  transition:all .2s; backdrop-filter:blur(4px);
+}
+.btn-theme:hover, .btn-admin:hover { background:rgba(255,255,255,0.25); }
+
+/* ── MAIN ── */
+.main { max-width:1200px; margin:0 auto; padding:24px 16px; }
+
+/* ── PAGES ── */
+.page { display:none; }
+.page.active { display:block; }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  border-radius:var(--radius-lg);
+  padding:48px 32px;
+  color:#fff; text-align:center;
+  margin-bottom:28px;
+  position:relative; overflow:hidden;
+}
+.hero::before {
+  content:''; position:absolute; top:-40px; right:-40px;
+  width:200px; height:200px;
+  background:rgba(255,255,255,0.06); border-radius:50%;
+}
+.hero::after {
+  content:''; position:absolute; bottom:-60px; left:-20px;
+  width:160px; height:160px;
+  background:rgba(255,255,255,0.04); border-radius:50%;
+}
+.hero-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25);
+  padding:6px 16px; border-radius:99px; font-size:12px;
+  margin-bottom:16px; backdrop-filter:blur(4px);
+}
+.hero h2 { font-size:clamp(22px,4vw,36px); font-weight:700; margin-bottom:8px; font-family:var(--font-serif); }
+.hero p { font-size:14px; opacity:0.85; margin-bottom:28px; }
+.hero-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+/* ── BUTTONS ── */
+.btn {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:11px 22px; border-radius:10px;
+  font-size:14px; font-weight:600; font-family:var(--font);
+  cursor:pointer; border:none; transition:all .2s;
+  text-decoration:none; white-space:nowrap;
+}
+.btn-primary { background:var(--accent); color:#fff; box-shadow:0 4px 14px rgba(232,160,32,0.4); }
+.btn-primary:hover { background:var(--accent-light); transform:translateY(-1px); box-shadow:0 6px 20px rgba(232,160,32,0.5); }
+.btn-white { background:#fff; color:var(--primary); }
+.btn-white:hover { background:#f0f4ff; transform:translateY(-1px); }
+.btn-outline { background:transparent; color:#fff; border:2px solid rgba(255,255,255,0.5); }
+.btn-outline:hover { background:rgba(255,255,255,0.1); }
+.btn-success { background:var(--success); color:#fff; }
+.btn-danger { background:var(--danger); color:#fff; }
+.btn-warning { background:var(--warning); color:#fff; }
+.btn-info { background:var(--info); color:#fff; }
+.btn-sm { padding:7px 14px; font-size:12px; border-radius:7px; }
+.btn-lg { padding:14px 28px; font-size:16px; border-radius:12px; }
+.btn-block { width:100%; justify-content:center; }
+
+/* ── CARDS ── */
+.card {
+  background:var(--surface);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.card-header {
+  padding:18px 24px;
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.card-title { font-size:16px; font-weight:700; display:flex; align-items:center; gap:8px; }
+.card-body { padding:24px; }
+
+/* ── QUICK CARDS ── */
+.quick-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; margin-bottom:28px; }
+.quick-card {
+  background:var(--surface); border-radius:var(--radius);
+  padding:20px; box-shadow:var(--shadow);
+  cursor:pointer; transition:all .2s;
+  display:flex; align-items:center; gap:16px;
+  border:2px solid transparent;
+}
+.quick-card:hover { border-color:var(--primary-light); transform:translateY(-2px); box-shadow:var(--shadow-lg); }
+.quick-card-icon {
+  width:50px; height:50px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; flex-shrink:0;
+}
+.quick-card-info h3 { font-size:14px; font-weight:600; margin-bottom:2px; }
+.quick-card-info p { font-size:12px; color:var(--text2); }
+
+/* ── FORM ── */
+.form-section { margin-bottom:24px; }
+.section-title {
+  font-size:14px; font-weight:700; color:var(--primary);
+  margin-bottom:14px; padding-bottom:8px;
+  border-bottom:2px solid var(--primary-light);
+  display:flex; align-items:center; gap:8px;
+}
+.form-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
+.form-group { display:flex; flex-direction:column; gap:6px; }
+.form-group label { font-size:13px; font-weight:600; color:var(--text2); }
+.form-group input, .form-group select, .form-group textarea {
+  padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:9px; font-size:14px; font-family:var(--font);
+  background:var(--surface); color:var(--text);
+  transition:border .2s, box-shadow .2s;
+  width:100%;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  outline:none; border-color:var(--primary-light);
+  box-shadow:0 0 0 3px rgba(37,99,235,0.12);
+}
+.form-group textarea { resize:vertical; min-height:80px; }
+
+/* ── FILE UPLOAD ── */
+.file-upload-area {
+  border:2px dashed var(--border); border-radius:10px;
+  padding:20px; text-align:center; cursor:pointer;
+  transition:all .2s; background:var(--surface2);
+  position:relative;
+}
+.file-upload-area:hover { border-color:var(--primary-light); background:rgba(37,99,235,0.04); }
+.file-upload-area input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; }
+.file-upload-area .upload-icon { font-size:28px; margin-bottom:6px; }
+.file-upload-area p { font-size:12px; color:var(--text2); }
+.file-upload-area .file-name { font-size:12px; color:var(--primary); font-weight:600; margin-top:4px; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(4px); z-index:1000;
+  display:flex; align-items:center; justify-content:center;
+  padding:20px;
+}
+.modal {
+  background:var(--surface); border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-lg); width:100%; max-width:480px;
+  animation:slideUp .3s ease;
+}
+@keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+.modal-header { padding:20px 24px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+.modal-body { padding:24px; }
+.modal-footer { padding:16px 24px; border-top:1px solid var(--border); display:flex; gap:10px; justify-content:flex-end; }
+.modal-close { background:none; border:none; font-size:22px; cursor:pointer; color:var(--text2); line-height:1; }
+
+/* ── BADGE ── */
+.badge {
+  display:inline-flex; align-items:center; gap:4px;
+  padding:3px 10px; border-radius:99px; font-size:11px; font-weight:600;
+}
+.badge-success { background:#dcfce7; color:#166534; }
+.badge-danger { background:#fee2e2; color:#991b1b; }
+.badge-warning { background:#fef3c7; color:#92400e; }
+.badge-info { background:#dbeafe; color:#1e40af; }
+.badge-gray { background:var(--surface2); color:var(--text2); }
+[data-theme="dark"] .badge-success { background:#14532d; color:#86efac; }
+[data-theme="dark"] .badge-danger { background:#450a0a; color:#fca5a5; }
+[data-theme="dark"] .badge-warning { background:#451a03; color:#fcd34d; }
+[data-theme="dark"] .badge-info { background:#1e3a5f; color:#93c5fd; }
+
+/* ── TABLE ── */
+.table-wrap { overflow-x:auto; border-radius:var(--radius); }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th { background:var(--surface2); padding:12px 14px; text-align:left; font-weight:700; color:var(--text2); white-space:nowrap; }
+td { padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:middle; }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background:var(--surface2); }
+
+/* ── STATS ── */
+.stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:24px; }
+.stat-card {
+  background:var(--surface); border-radius:var(--radius);
+  padding:18px 16px; box-shadow:var(--shadow);
+  text-align:center;
+}
+.stat-card .stat-num { font-size:28px; font-weight:800; font-family:var(--font-serif); }
+.stat-card .stat-label { font-size:12px; color:var(--text2); margin-top:4px; }
+
+/* ── TABS ── */
+.tabs { display:flex; gap:4px; border-bottom:2px solid var(--border); margin-bottom:20px; overflow-x:auto; }
+.tab-btn {
+  padding:10px 18px; border:none; background:none; cursor:pointer;
+  font-size:13px; font-weight:600; font-family:var(--font);
+  color:var(--text2); border-bottom:2px solid transparent;
+  margin-bottom:-2px; transition:all .2s; white-space:nowrap;
+}
+.tab-btn.active { color:var(--primary); border-bottom-color:var(--primary); }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+
+/* ── SEARCH ── */
+.search-bar {
+  display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;
+}
+.search-bar input { flex:1; min-width:200px; }
+.search-bar select { width:160px; }
+
+/* ── FUEL SCANNER ── */
+.scanner-area {
+  background:#000; border-radius:var(--radius);
+  aspect-ratio:4/3; display:flex; align-items:center; justify-content:center;
+  position:relative; overflow:hidden; max-width:400px; margin:0 auto;
+}
+.scanner-overlay {
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+}
+.scanner-frame {
+  width:200px; height:200px; border:3px solid var(--accent);
+  border-radius:12px; position:relative; animation:scanPulse 2s infinite;
+}
+@keyframes scanPulse {
+  0%,100%{box-shadow:0 0 0 0 rgba(232,160,32,0.4)}
+  50%{box-shadow:0 0 0 12px rgba(232,160,32,0)}
+}
+.scan-line {
+  position:absolute; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  animation:scanLine 2s infinite;
+}
+@keyframes scanLine { 0%{top:0} 50%{top:100%} 100%{top:0} }
+#reader { width:100%; height:100%; }
+#reader video { width:100% !important; height:100% !important; object-fit:cover; }
+
+/* ══════════════════════════════════════════
+   FUEL ID CARD — 6×4 inch landscape
+   2-colour: Navy #0f2d5a + White
+   Minimal ink, clean government look
+   ══════════════════════════════════════════ */
+.fuel-card-wrap {
+  width:100%; max-width:576px; margin:0 auto;
+  filter: drop-shadow(0 6px 24px rgba(15,45,90,0.22));
+}
+.fuel-card {
+  width:576px; height:384px;
+  border-radius:12px; overflow:hidden;
+  font-family:var(--font);
+  position:relative; background:#fff;
+  display:flex; flex-direction:column;
+  border:2.5px solid #0f2d5a;
+}
+/* Very light diagonal micro-lines watermark */
+.fuel-card::before {
+  content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background: repeating-linear-gradient(
+    125deg,
+    transparent 0px, transparent 28px,
+    rgba(15,45,90,0.025) 28px, rgba(15,45,90,0.025) 29px
+  );
+}
+
+/* ── CARD HEADER ── navy solid, white text */
+.fid-header {
+  background: #0f2d5a;
+  padding: 7px 14px;
+  display:flex; align-items:center; justify-content:space-between;
+  position:relative; z-index:1; flex-shrink:0;
+  border-bottom: 3px solid #fff;
+}
+.fid-header-left { display:flex; align-items:center; gap:9px; }
+.fid-gov-logo {
+  width:32px; height:32px; background:#fff; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:17px; flex-shrink:0;
+}
+.fid-gov-text { color:#fff; line-height:1.25; }
+.fid-gov-text .fid-t1 { font-size:7px; opacity:0.82; }
+.fid-gov-text .fid-t2 { font-size:11px; font-weight:800; letter-spacing:0.4px; }
+.fid-gov-text .fid-t3 { font-size:7px; opacity:0.7; }
+.fid-header-right { text-align:right; color:#fff; }
+.fid-pass-label {
+  font-size:17px; font-weight:900; letter-spacing:2.5px;
+  color:#fff; font-family:var(--font-serif);
+  text-shadow: 0 0 0 transparent;
+}
+.fid-serial-badge {
+  background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35);
+  border-radius:5px; padding:2px 8px; font-size:9px; color:#fff;
+  margin-top:2px; display:inline-block; letter-spacing:0.5px;
+}
+
+/* ── CARD BODY ── */
+.fid-body {
+  flex:1; display:flex; gap:0; position:relative; z-index:1;
+  background:#fff;
+}
+
+/* LEFT: Photo + serial + QR — navy bg */
+.fid-left {
+  width:126px; flex-shrink:0;
+  display:flex; flex-direction:column; align-items:center;
+  padding:11px 9px 8px;
+  background: #0f2d5a;
+  border-right: 0;
+}
+.fid-photo {
+  width:92px; height:106px;
+  border:3px solid rgba(255,255,255,0.6); border-radius:7px; overflow:hidden;
+  background:rgba(255,255,255,0.12); display:flex; align-items:center; justify-content:center;
+  font-size:34px; flex-shrink:0; color:#fff;
+}
+.fid-photo img { width:100%; height:100%; object-fit:cover; }
+.fid-serial-box {
+  margin-top:7px; background:#fff; color:#0f2d5a; border-radius:5px;
+  padding:3px 8px; font-size:11px; font-weight:900; letter-spacing:1px;
+  text-align:center; width:100%;
+}
+.fid-serial-label { font-size:7px; color:#0f2d5a; opacity:0.65; display:block; font-weight:500; }
+.fid-qr-box {
+  margin-top:7px; background:#fff; border-radius:6px;
+  padding:3px; display:flex; align-items:center; justify-content:center;
+}
+
+/* MIDDLE: Info — white bg */
+.fid-mid {
+  flex:1; padding:10px 13px 8px;
+  display:flex; flex-direction:column; justify-content:space-between;
+  background:#fff;
+}
+.fid-name {
+  font-size:18px; font-weight:900; color:#0f2d5a;
+  line-height:1.15; margin-bottom:3px; font-family:var(--font-serif);
+}
+/* ── OCCUPATION highlighted navy pill ── */
+.fid-occupation-chip {
+  display:inline-block; background:#0f2d5a; color:#fff;
+  font-size:9.5px; font-weight:700; border-radius:4px;
+  padding:3px 11px; margin-bottom:9px;
+  letter-spacing:0.3px;
+}
+.fid-fields { display:flex; flex-direction:column; gap:4px; }
+.fid-field {
+  display:flex; gap:0; align-items:stretch;
+  border:1px solid #0f2d5a; border-radius:5px; overflow:hidden;
+  background:#fff;
+}
+.fid-field-label {
+  background:#0f2d5a; color:#fff; font-size:8px; font-weight:700;
+  padding:4px 7px; display:flex; align-items:center; min-width:54px; flex-shrink:0;
+  letter-spacing:0.2px;
+}
+.fid-field-value {
+  font-size:11px; font-weight:700; color:#0f2d5a;
+  padding:4px 8px; display:flex; align-items:center; flex:1;
+}
+
+/* ── CARD FOOTER ── navy, white text */
+.fid-footer {
+  background: #0f2d5a;
+  padding:5px 14px;
+  display:flex; align-items:center; justify-content:space-between;
+  position:relative; z-index:1; flex-shrink:0;
+  border-top:3px solid #fff;
+}
+.fid-footer-left { color:rgba(255,255,255,0.82); font-size:8px; }
+.fid-footer-right { color:#fff; font-size:9px; font-weight:700; letter-spacing:0.5px; }
+
+/* Responsive scroll on narrow screens */
+@media(max-width:620px) {
+  .fuel-card-wrap { overflow-x:auto; }
+}
+
+/* ── SUCCESS POPUP ── */
+.success-popup .modal { max-width:380px; }
+.success-icon { font-size:56px; text-align:center; margin-bottom:12px; }
+.success-popup h3 { text-align:center; font-size:18px; font-weight:700; margin-bottom:8px; color:var(--success); }
+.success-popup p { text-align:center; font-size:14px; color:var(--text2); }
+.tracking-id-box {
+  background:var(--surface2); border-radius:10px;
+  padding:14px; margin:14px 0; text-align:center;
+  border:1px dashed var(--border);
+}
+.tracking-id-box .label { font-size:11px; color:var(--text2); }
+.tracking-id-box .value { font-size:20px; font-weight:800; color:var(--primary); letter-spacing:1px; font-family:var(--font-serif); }
+.serial-box {
+  display:inline-block; background:var(--primary); color:#fff;
+  padding:8px 20px; border-radius:8px; font-size:24px; font-weight:800; letter-spacing:4px;
+}
+
+/* ── STATUS PAGE ── */
+.status-card {
+  background:var(--surface); border-radius:var(--radius);
+  padding:24px; box-shadow:var(--shadow); max-width:480px; margin:0 auto;
+}
+.status-timeline { margin-top:20px; }
+.timeline-item {
+  display:flex; gap:12px; margin-bottom:16px;
+  padding-bottom:16px; border-bottom:1px dashed var(--border);
+}
+.timeline-item:last-child { border-bottom:none; }
+.timeline-dot {
+  width:32px; height:32px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; flex-shrink:0;
+}
+.timeline-info h4 { font-size:14px; font-weight:600; }
+.timeline-info p { font-size:12px; color:var(--text2); }
+
+/* ── ADMIN SIDEBAR ── */
+.admin-layout { display:flex; gap:0; min-height:calc(100vh - 64px); }
+.sidebar {
+  width:220px; background:var(--surface);
+  border-right:1px solid var(--border); flex-shrink:0;
+  padding:16px 0; position:sticky; top:64px; height:calc(100vh - 64px); overflow-y:auto;
+}
+.sidebar-section { padding:0 12px; margin-bottom:8px; }
+.sidebar-label { font-size:10px; font-weight:700; color:var(--text3); letter-spacing:1px; padding:8px 8px 4px; }
+.sidebar-item {
+  display:flex; align-items:center; gap:10px;
+  padding:9px 12px; border-radius:9px; cursor:pointer;
+  font-size:13px; font-weight:500; color:var(--text2);
+  transition:all .15s; position:relative;
+}
+.sidebar-item:hover { background:var(--surface2); color:var(--text); }
+.sidebar-item.active { background:var(--primary); color:#fff; }
+.sidebar-item .badge-count {
+  margin-left:auto; background:var(--danger); color:#fff;
+  min-width:18px; height:18px; border-radius:99px; font-size:10px;
+  display:flex; align-items:center; justify-content:center; padding:0 4px;
+}
+.admin-content { flex:1; padding:24px; overflow-y:auto; }
+@media(max-width:768px) {
+  .sidebar { display:none; }
+  .admin-layout { flex-direction:column; }
+  .admin-content { padding:16px; }
+}
+
+/* ── MOBILE NAV ── */
+.mobile-nav {
+  display:none;
+  position:fixed; bottom:0; left:0; right:0; z-index:90;
+  background:var(--surface); border-top:1px solid var(--border);
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+}
+.mobile-nav-inner {
+  display:flex; padding:8px 4px;
+}
+.mobile-nav-item {
+  flex:1; display:flex; flex-direction:column; align-items:center;
+  gap:3px; padding:6px 4px; cursor:pointer;
+  font-size:10px; color:var(--text2); border-radius:8px;
+  transition:all .15s;
+}
+.mobile-nav-item.active { color:var(--primary); }
+.mobile-nav-item span:first-child { font-size:20px; }
+@media(max-width:640px) {
+  .mobile-nav { display:block; }
+  body { padding-bottom:70px; }
+  .hero { padding:28px 18px; }
+  .hero h2 { font-size:20px; }
+}
+
+/* ── LOADER ── */
+.loader {
+  display:flex; align-items:center; justify-content:center;
+  padding:40px; gap:12px; color:var(--text2); font-size:14px;
+}
+.spinner {
+  width:24px; height:24px; border:3px solid var(--border);
+  border-top-color:var(--primary); border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin { to{transform:rotate(360deg)} }
+
+/* ── TOAST ── */
+.toast-container { position:fixed; top:20px; right:20px; z-index:2000; display:flex; flex-direction:column; gap:8px; }
+.toast {
+  background:var(--surface); border-radius:10px;
+  padding:12px 18px; box-shadow:var(--shadow-lg);
+  display:flex; align-items:center; gap:10px;
+  animation:toastIn .3s ease; min-width:240px; max-width:340px;
+  border-left:4px solid var(--primary);
+}
+.toast.success { border-left-color:var(--success); }
+.toast.error { border-left-color:var(--danger); }
+.toast.warning { border-left-color:var(--warning); }
+@keyframes toastIn { from{opacity:0;transform:translateX(40px)} to{opacity:1;transform:translateX(0)} }
+.toast-icon { font-size:18px; }
+.toast-msg { font-size:13px; font-weight:500; }
+
+/* ── EMPTY STATE ── */
+.empty-state { text-align:center; padding:48px 20px; color:var(--text2); }
+.empty-state .empty-icon { font-size:48px; margin-bottom:12px; }
+.empty-state p { font-size:14px; }
+
+/* ── INPUT SEARCH ── */
+.input-icon-wrap { position:relative; }
+.input-icon-wrap input { padding-left:38px; }
+.input-icon-wrap .icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:16px; }
+
+/* ── RESP ── */
+@media(max-width:480px) {
+  .form-grid { grid-template-columns:1fr; }
+  .stats-grid { grid-template-columns:repeat(2,1fr); }
+  .cal-grid { grid-template-columns:repeat(2,1fr); }
+  .fuel-card { max-width:100%; }
+}
+.hidden { display:none !important; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    🇧🇩 &nbsp;গণপ্রজাতন্ত্রী বাংলাদেশ সরকার
+  </div>
+  <div>বকশিগঞ্জ উপজেলা, জামালপুর</div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo-area">
+      <div class="logo-icon">⛽</div>
+      <div class="logo-text">
+        <h1>Fuel Pass System</h1>
+        <p>বকশিগঞ্জ উপজেলা নির্বাহী অফিসার</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-theme" onclick="toggleTheme()" title="থিম পরিবর্তন">🌓</button>
+      <button class="btn-admin" onclick="showPage('admin-login')">🔐 Admin</button>
+    </div>
+  </div>
+</header>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <div class="mobile-nav-item active" onclick="showPage('home');setMobileNav(this)">
+      <span>🏠</span><span>হোম</span>
+    </div>
+    <div class="mobile-nav-item" onclick="showPage('apply');setMobileNav(this)">
+      <span>📋</span><span>আবেদন</span>
+    </div>
+    <div class="mobile-nav-item" onclick="showPage('status');setMobileNav(this)">
+      <span>🔍</span><span>স্ট্যাটাস</span>
+    </div>
+    <div class="mobile-nav-item" onclick="showPage('download');setMobileNav(this)">
+      <span>📥</span><span>কার্ড</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     HOME PAGE
+══════════════════════════════════════════ -->
+<div class="main" id="pages">
+
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-badge">🏛️ সরকারি সেবা · ডিজিটাল বাংলাদেশ</div>
+    <h2>জ্বালানি পাস – বকশিগঞ্জ উপজেলা</h2>
+    <p>উপজেলা নির্বাহী কর্মকর্তা কর্তৃক নিয়ন্ত্রিত ডিজিটাল জ্বালানি বিতরণ ব্যবস্থা</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary btn-lg" onclick="showPage('apply')">📋 আবেদন করুন</button>
+      <button class="btn btn-white btn-lg" onclick="showPage('status')">🔍 স্ট্যাটাস দেখুন</button>
+      <button class="btn btn-outline btn-lg" onclick="showPage('download')">📥 কার্ড ডাউনলোড</button>
+    </div>
+  </div>
+
+  <div class="quick-grid">
+    <div class="quick-card" onclick="showPage('apply')">
+      <div class="quick-card-icon" style="background:#dbeafe">📋</div>
+      <div class="quick-card-info">
+        <h3>নতুন আবেদন</h3>
+        <p>Fuel Pass এর জন্য আবেদন করুন</p>
+      </div>
+    </div>
+    <div class="quick-card" onclick="showPage('status')">
+      <div class="quick-card-icon" style="background:#dcfce7">🔍</div>
+      <div class="quick-card-info">
+        <h3>আবেদনের অবস্থা</h3>
+        <p>আপনার আবেদনের অগ্রগতি দেখুন</p>
+      </div>
+    </div>
+    <div class="quick-card" onclick="showPage('download')">
+      <div class="quick-card-icon" style="background:#fef3c7">📥</div>
+      <div class="quick-card-info">
+        <h3>কার্ড ডাউনলোড</h3>
+        <p>অনুমোদিত Fuel Card নিন</p>
+      </div>
+    </div>
+    <div class="quick-card" onclick="showPage('about')">
+      <div class="quick-card-icon" style="background:#f3e8ff">ℹ️</div>
+      <div class="quick-card-info">
+        <h3>তথ্য ও নির্দেশনা</h3>
+        <p>নিয়মাবলী ও যোগ্য পেশার তালিকা</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info Section -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">⚠️ গুরুত্বপূর্ণ তথ্য</div>
+    </div>
+    <div class="card-body">
+      <p style="font-size:14px; line-height:1.8; color:var(--text2)">
+        এই সিস্টেমটি শুধুমাত্র <strong>নির্দিষ্ট শ্রেণির পেশার</strong> মানুষদের জন্য। QR কোড ভিত্তিক এই ব্যবস্থায় প্রতিটি অনুমোদিত ব্যক্তি নির্ধারিত সময় পরপর জ্বালানি সংগ্রহ করতে পারবেন। একবারের বেশি বা নির্ধারিত সময়ের আগে জ্বালানি প্রদান করা হবে না।
+      </p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+        <span class="badge badge-success">✅ স্বাস্থ্যসেবা</span>
+        <span class="badge badge-success">✅ বিদ্যুৎ বিভাগ</span>
+        <span class="badge badge-success">✅ ফায়ার সার্ভিস</span>
+        <span class="badge badge-success">✅ সরকারি কর্মচারী</span>
+        <span class="badge badge-success">✅ পুলিশ</span>
+        <span class="badge badge-success">✅ শিক্ষক</span>
+        <span class="badge badge-success">✅ জনপ্রতিনিধি</span>
+        <span class="badge badge-success">✅ ব্যাংক কর্মকর্তা</span>
+        <span class="badge badge-success">✅ সাংবাদিক</span>
+        <span class="badge badge-success">✅ কৃষক</span>
+        <span class="badge badge-success">✅ কৃষি কর্মকর্তা</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     APPLICATION PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-apply">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">📋 Fuel Pass আবেদন ফর্ম</div>
+      <button class="btn btn-sm" style="background:var(--surface2);color:var(--text)" onclick="showPage('home')">← ফিরে যান</button>
+    </div>
+    <div class="card-body">
+      <form id="applyForm" onsubmit="submitApplication(event)">
+
+        <div class="form-section">
+          <div class="section-title">👤 ব্যক্তিগত তথ্য</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>পূর্ণ নাম *</label>
+              <input type="text" id="app_name" placeholder="আপনার নাম লিখুন" required>
+            </div>
+            <div class="form-group">
+              <label>মোবাইল নম্বর *</label>
+              <input type="tel" id="app_phone" placeholder="01XXXXXXXXX" pattern="01[3-9][0-9]{8}" required>
+            </div>
+            <div class="form-group">
+              <label>NID নম্বর *</label>
+              <input type="text" id="app_nid" placeholder="জাতীয় পরিচয়পত্র নম্বর" required>
+            </div>
+            <div class="form-group">
+              <label>ড্রাইভিং লাইসেন্স নম্বর *</label>
+              <input type="text" id="app_license" placeholder="লাইসেন্স নম্বর" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-title">📍 ঠিকানা</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>গ্রাম / মহল্লা *</label>
+              <input type="text" id="app_village" placeholder="গ্রামের নাম" required>
+            </div>
+            <div class="form-group">
+              <label>ওয়ার্ড নম্বর *</label>
+              <select id="app_ward" required>
+                <option value="">ওয়ার্ড বেছে নিন</option>
+                <option>১ নং ওয়ার্ড</option><option>২ নং ওয়ার্ড</option><option>৩ নং ওয়ার্ড</option>
+                <option>৪ নং ওয়ার্ড</option><option>৫ নং ওয়ার্ড</option><option>৬ নং ওয়ার্ড</option>
+                <option>৭ নং ওয়ার্ড</option><option>৮ নং ওয়ার্ড</option><option>৯ নং ওয়ার্ড</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>ইউনিয়ন / পৌরসভা *</label>
+              <select id="app_union" required>
+                <option value="">বেছে নিন</option>
+                <option>বকশিগঞ্জ পৌরসভা</option>
+                <option>বাট্টাজোর ইউনিয়ন</option>
+                <option>নিলক্ষিয়া ইউনিয়ন</option>
+                <option>মেরুর চর ইউনিয়ন</option>
+                <option>সাধুরপাড়া ইউনিয়ন</option>
+                <option>ধানুয়া কামালপুর ইউনিয়ন</option>
+                <option>বকশিগঞ্জ ইউনিয়ন</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>পেশা *</label>
+              <select id="app_occupation" required>
+                <option value="">পেশা বেছে নিন</option>
+                <option>স্বাস্থ্যসেবা খাতে কর্মরত ব্যক্তিবৃন্দ</option>
+                <option>বিদ্যুৎ বিভাগ</option>
+                <option>ফায়ার সার্ভিস</option>
+                <option>সরকারি কর্মচারী</option>
+                <option>পুলিশ</option>
+                <option>শিক্ষক</option>
+                <option>জনপ্রতিনিধি</option>
+                <option>ব্যাংক কর্মকর্তা</option>
+                <option>সাংবাদিক</option>
+                <option>কৃষক (সেচ কাজে ব্যবহারের জন্য)</option>
+                <option>কৃষি কর্মকর্তা / কর্মচারী</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-title">📎 প্রয়োজনীয় কাগজপত্র</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>প্রোফাইল ছবি *</label>
+              <div class="file-upload-area" id="profileUploadArea">
+                <input type="file" id="app_photo" accept="image/*" onchange="handleFileSelect(this,'profileUploadArea','profilePreview')" required>
+                <div class="upload-icon">📷</div>
+                <p>ছবি বেছে নিন বা এখানে ড্র্যাগ করুন</p>
+                <p class="file-name" id="profilePreview"></p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>ড্রাইভিং লাইসেন্স ছবি *</label>
+              <div class="file-upload-area" id="licenseUploadArea">
+                <input type="file" id="app_license_img" accept="image/*" onchange="handleFileSelect(this,'licenseUploadArea','licensePreview')" required>
+                <div class="upload-icon">🪪</div>
+                <p>লাইসেন্সের ছবি আপলোড করুন</p>
+                <p class="file-name" id="licensePreview"></p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>প্রত্যয়ন পত্র *</label>
+              <div class="file-upload-area" id="certUploadArea">
+                <input type="file" id="app_cert" accept="image/*,application/pdf" onchange="handleFileSelect(this,'certUploadArea','certPreview')" required>
+                <div class="upload-icon">📄</div>
+                <p>কর্মপ্রমাণ / প্রত্যয়নপত্র আপলোড করুন</p>
+                <p class="file-name" id="certPreview"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap">
+          <button type="button" class="btn" style="background:var(--surface2);color:var(--text)" onclick="showPage('home')">বাতিল</button>
+          <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">✅ আবেদন জমা দিন</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     STATUS PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-status">
+  <div class="status-card">
+    <div class="card-header" style="padding:0 0 18px;border:none">
+      <div class="card-title" style="font-size:18px">🔍 আবেদনের অবস্থা যাচাই</div>
+      <button class="btn btn-sm" style="background:var(--surface2);color:var(--text)" onclick="showPage('home')">← ফিরে যান</button>
+    </div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>মোবাইল নম্বর দিন</label>
+      <input type="tel" id="statusPhone" placeholder="01XXXXXXXXX" pattern="01[3-9][0-9]{8}">
+    </div>
+    <button class="btn btn-primary btn-block" onclick="checkStatus()">🔍 স্ট্যাটাস দেখুন</button>
+    <div id="statusResult" style="margin-top:20px"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DOWNLOAD PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-download">
+  <div class="status-card">
+    <div class="card-header" style="padding:0 0 18px;border:none">
+      <div class="card-title" style="font-size:18px">📥 Fuel Card ডাউনলোড</div>
+      <button class="btn btn-sm" style="background:var(--surface2);color:var(--text)" onclick="showPage('home')">← ফিরে যান</button>
+    </div>
+    <div style="background:var(--surface2);border-radius:10px;padding:14px;margin-bottom:16px;font-size:13px;color:var(--text2)">
+      ⚠️ কার্ড শুধুমাত্র <strong>একবার</strong> ডাউনলোড করা যাবে। অনুমোদিত ব্যবহারকারীরাই কার্ড পাবেন।
+    </div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>মোবাইল নম্বর</label>
+      <input type="tel" id="dlPhone" placeholder="01XXXXXXXXX">
+    </div>
+    <div class="form-group" style="margin-bottom:14px">
+      <label>ড্রাইভিং লাইসেন্স নম্বর</label>
+      <input type="text" id="dlLicense" placeholder="লাইসেন্স নম্বর">
+    </div>
+    <button class="btn btn-primary btn-block" onclick="downloadCard()">📥 কার্ড ডাউনলোড করুন</button>
+    <div id="downloadResult" style="margin-top:20px"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ABOUT PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">ℹ️ তথ্য ও নির্দেশনা</div>
+      <button class="btn btn-sm" style="background:var(--surface2);color:var(--text)" onclick="showPage('home')">← ফিরে যান</button>
+    </div>
+    <div class="card-body" style="font-size:14px;line-height:2;color:var(--text2)">
+      <h3 style="color:var(--text);margin-bottom:8px">যোগ্য পেশার তালিকা</h3>
+      <p>নিচের পেশার মানুষ ছাড়া অন্য কেউ আবেদন করতে পারবেন না:</p>
+      <ul style="margin:10px 0 20px 20px">
+        <li>স্বাস্থ্যসেবা খাতে কর্মরত ব্যক্তিবৃন্দ</li>
+        <li>বিদ্যুৎ বিভাগ</li>
+        <li>ফায়ার সার্ভিস</li>
+        <li>সরকারি কর্মচারী</li>
+        <li>পুলিশ</li>
+        <li>শিক্ষক</li>
+        <li>জনপ্রতিনিধি</li>
+        <li>ব্যাংক কর্মকর্তা</li>
+        <li>সাংবাদিক</li>
+        <li>কৃষক (সেচ কাজে ব্যবহারের জন্য)</li>
+        <li>কৃষি কর্মকর্তা / কর্মচারী</li>
+      </ul>
+      <h3 style="color:var(--text);margin-bottom:8px">প্রয়োজনীয় কাগজপত্র</h3>
+      <ul style="margin:10px 0 20px 20px">
+        <li>সাম্প্রতিক পাসপোর্ট সাইজ ছবি</li>
+        <li>ড্রাইভিং লাইসেন্সের সত্যায়িত কপি</li>
+        <li>কর্মস্থলের প্রত্যয়নপত্র</li>
+      </ul>
+      <h3 style="color:var(--text);margin-bottom:8px">জ্বালানি বিতরণ নিয়মাবলী</h3>
+      <ul style="margin:10px 0 20px 20px">
+        <li>প্রতিবার সর্বোচ্চ ৫ লিটার জ্বালানি প্রদান করা হবে</li>
+        <li>৪ দিনের আগে পুনরায় জ্বালানি পাওয়া যাবে না</li>
+        <li>QR কোড স্ক্যানের মাধ্যমে সিস্টেম স্বয়ংক্রিয়ভাবে নিরীক্ষণ করবে</li>
+        <li>জ্বালানি বিতরণ স্থান: পরেশ চন্দ্র পাম্প, বকশিগঞ্জ</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ADMIN LOGIN
+══════════════════════════════════════════ -->
+<div class="page" id="page-admin-login">
+  <div style="max-width:380px;margin:40px auto">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">🔐 অ্যাডমিন লগইন</div>
+      </div>
+      <div class="card-body">
+        <div class="form-group" style="margin-bottom:14px">
+          <label>ব্যবহারকারী নাম</label>
+          <input type="text" id="adminUser" placeholder="Username">
+        </div>
+        <div class="form-group" style="margin-bottom:18px">
+          <label>পাসওয়ার্ড</label>
+          <input type="password" id="adminPass" placeholder="Password">
+        </div>
+        <button class="btn btn-primary btn-block btn-lg" onclick="adminLogin()">🔑 লগইন করুন</button>
+        <div style="margin-top:12px;text-align:center">
+          <button class="btn btn-sm" style="background:none;color:var(--text2)" onclick="showPage('home')">← হোমে ফিরুন</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ADMIN PANEL
+══════════════════════════════════════════ -->
+<div class="page" id="page-admin">
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">প্রধান মেনু</div>
+        <div class="sidebar-item active" onclick="switchAdminTab('dashboard',this)">
+          <span>📊</span> ড্যাশবোর্ড
+        </div>
+        <div class="sidebar-item" onclick="switchAdminTab('requests',this)">
+          <span>📥</span> নতুন আবেদন
+          <span class="badge-count" id="pendingCount">0</span>
+        </div>
+        <div class="sidebar-item" onclick="switchAdminTab('approved',this)">
+          <span>✅</span> অনুমোদিত
+        </div>
+        <div class="sidebar-item" onclick="switchAdminTab('rejected',this)">
+          <span>❌</span> প্রত্যাখ্যাত
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">জ্বালানি বিতরণ</div>
+        <div class="sidebar-item" onclick="switchAdminTab('scanner',this)">
+          <span>📱</span> QR স্ক্যানার
+        </div>
+        <div class="sidebar-item" onclick="switchAdminTab('fuel-settings',this)">
+          <span>⚙️</span> জ্বালানি সেটিং
+        </div>
+        <div class="sidebar-item" onclick="switchAdminTab('logs',this)">
+          <span>📋</span> লগ সিস্টেম
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">প্রিন্ট</div>
+        <div class="sidebar-item" onclick="switchAdminTab('print',this)">
+          <span>🖨️</span> কার্ড প্রিন্ট
+        </div>
+      </div>
+      <div class="sidebar-section" style="margin-top:auto;padding-top:20px">
+        <div class="sidebar-item" onclick="adminLogout()" style="color:var(--danger)">
+          <span>🚪</span> লগআউট
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Content -->
+    <div class="admin-content">
+
+      <!-- DASHBOARD TAB -->
+      <div class="tab-content active" id="tab-dashboard">
+        <h2 style="font-size:20px;font-weight:700;margin-bottom:20px">📊 ড্যাশবোর্ড</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-num" style="color:var(--primary)" id="statTotal">0</div>
+            <div class="stat-label">মোট আবেদন</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" style="color:var(--warning)" id="statPending">0</div>
+            <div class="stat-label">অপেক্ষমান</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" style="color:var(--success)" id="statApproved">0</div>
+            <div class="stat-label">অনুমোদিত</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" style="color:var(--danger)" id="statRejected">0</div>
+            <div class="stat-label">প্রত্যাখ্যাত</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" style="color:var(--info)" id="statTodayFuel">0</div>
+            <div class="stat-label">আজকের জ্বালানি (লিটার)</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title">⛽ জ্বালানি সেটিং (বর্তমান)</div></div>
+          <div class="card-body">
+            <div style="display:flex;gap:24px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:12px;color:var(--text2)">প্রতিবার পরিমাণ</div>
+                <div style="font-size:24px;font-weight:800;color:var(--primary)" id="dashFuelAmount">৫ লিটার</div>
+              </div>
+              <div>
+                <div style="font-size:12px;color:var(--text2)">লক সময়কাল</div>
+                <div style="font-size:24px;font-weight:800;color:var(--warning)" id="dashLockDays">৪ দিন</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REQUESTS TAB -->
+      <div class="tab-content" id="tab-requests">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+          <h2 style="font-size:20px;font-weight:700">📥 নতুন আবেদনসমূহ</h2>
+          <button class="btn btn-sm btn-primary" onclick="loadRequests()">🔄 রিফ্রেশ</button>
+        </div>
+        <div class="search-bar">
+          <div class="input-icon-wrap" style="flex:1">
+            <span class="icon">🔍</span>
+            <input type="text" placeholder="নাম বা ফোন দিয়ে খুঁজুন" id="reqSearch" oninput="filterRequests()">
+          </div>
+          <select id="reqFilter" onchange="filterRequests()">
+            <option value="pending">অপেক্ষমান</option>
+            <option value="hold">হোল্ড</option>
+            <option value="all">সকল</option>
+          </select>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table id="reqTable">
+              <thead>
+                <tr>
+                  <th>সিরিয়াল</th>
+                  <th>নাম</th>
+                  <th>ফোন</th>
+                  <th>পেশা</th>
+                  <th>ওয়ার্ড</th>
+                  <th>স্ট্যাটাস</th>
+                  <th>একশন</th>
+                </tr>
+              </thead>
+              <tbody id="reqTableBody">
+                <tr><td colspan="7" class="loader"><div class="spinner"></div> লোড হচ্ছে...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- APPROVED TAB -->
+      <div class="tab-content" id="tab-approved">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+          <h2 style="font-size:20px;font-weight:700">✅ অনুমোদিত ব্যবহারকারী</h2>
+          <button class="btn btn-sm btn-primary" onclick="loadApproved()">🔄 রিফ্রেশ</button>
+        </div>
+        <div class="search-bar">
+          <div class="input-icon-wrap" style="flex:1">
+            <span class="icon">🔍</span>
+            <input type="text" placeholder="নাম বা ফোন দিয়ে খুঁজুন" id="appSearch" oninput="filterApproved()">
+          </div>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>সিরিয়াল</th>
+                  <th>নাম</th>
+                  <th>ফোন</th>
+                  <th>পেশা</th>
+                  <th>শেষ জ্বালানি</th>
+                  <th>একশন</th>
+                </tr>
+              </thead>
+              <tbody id="appTableBody">
+                <tr><td colspan="6" class="loader"><div class="spinner"></div> লোড হচ্ছে...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- REJECTED TAB -->
+      <div class="tab-content" id="tab-rejected">
+        <h2 style="font-size:20px;font-weight:700;margin-bottom:20px">❌ প্রত্যাখ্যাত আবেদন</h2>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>সিরিয়াল</th><th>নাম</th><th>ফোন</th><th>কারণ</th><th>তারিখ</th></tr>
+              </thead>
+              <tbody id="rejTableBody">
+                <tr><td colspan="5" class="loader"><div class="spinner"></div> লোড হচ্ছে...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCANNER TAB -->
+      <div class="tab-content" id="tab-scanner">
+        <h2 style="font-size:20px;font-weight:700;margin-bottom:20px">📱 QR স্ক্যানার – জ্বালানি বিতরণ</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start">
+          <div>
+            <div class="card" style="margin-bottom:16px">
+              <div class="card-header"><div class="card-title">📷 ক্যামেরা স্ক্যানার</div></div>
+              <div class="card-body" style="padding:16px">
+                <div id="reader" style="width:100%;border-radius:10px;overflow:hidden;background:#000;min-height:200px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px">
+                  ক্যামেরা চালু করুন
+                </div>
+                <div style="display:flex;gap:8px;margin-top:12px">
+                  <button class="btn btn-primary" id="startScanBtn" onclick="startScanner()" style="flex:1">📷 স্ক্যানার চালু</button>
+                  <button class="btn" style="background:var(--surface2);color:var(--text);flex:1" onclick="stopScanner()" id="stopScanBtn" disabled>⏹ বন্ধ করুন</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Manual entry: QR data OR serial OR phone -->
+            <div class="card">
+              <div class="card-header"><div class="card-title">🔢 ম্যানুয়াল এন্ট্রি</div></div>
+              <div class="card-body" style="padding:16px">
+                <div style="margin-bottom:12px;font-size:13px;color:var(--text2)">QR স্ক্যান ছাড়াও সিরিয়াল নম্বর বা ফোন নম্বর দিয়ে তেল এন্ট্রি দেওয়া যাবে।</div>
+                <div class="tabs" style="margin-bottom:16px">
+                  <button class="tab-btn active" onclick="switchScanEntryTab('serial',this)">🔢 সিরিয়াল নম্বর</button>
+                  <button class="tab-btn" onclick="switchScanEntryTab('phone',this)">📱 ফোন নম্বর</button>
+                  <button class="tab-btn" onclick="switchScanEntryTab('qr',this)">📋 QR ডেটা</button>
+                </div>
+                <div id="scan-entry-serial" class="scan-entry-tab">
+                  <div class="form-group" style="margin-bottom:10px">
+                    <label>সিরিয়াল নম্বর</label>
+                    <input type="text" id="manualSerial" placeholder="যেমন: 00001">
+                  </div>
+                  <button class="btn btn-primary btn-block" onclick="processManualSerial()">✅ তেল এন্ট্রি দিন</button>
+                </div>
+                <div id="scan-entry-phone" class="scan-entry-tab" style="display:none">
+                  <div class="form-group" style="margin-bottom:10px">
+                    <label>ফোন নম্বর</label>
+                    <input type="tel" id="manualPhone" placeholder="01XXXXXXXXX">
+                  </div>
+                  <button class="btn btn-primary btn-block" onclick="processManualPhone()">✅ তেল এন্ট্রি দিন</button>
+                </div>
+                <div id="scan-entry-qr" class="scan-entry-tab" style="display:none">
+                  <div class="form-group" style="margin-bottom:10px">
+                    <label>QR ডেটা (JSON)</label>
+                    <input type="text" id="manualQR" placeholder="QR ডেটা পেস্ট করুন">
+                  </div>
+                  <button class="btn btn-warning btn-block" onclick="processManualQR()">✅ প্রক্রিয়া করুন</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="card" id="scanResultCard" style="display:none">
+              <div class="card-header"><div class="card-title" id="scanResultTitle">স্ক্যান ফলাফল</div></div>
+              <div class="card-body" id="scanResultBody"></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">📋 আজকের বিতরণ</div></div>
+              <div class="card-body" style="padding:12px">
+                <div class="table-wrap">
+                  <table>
+                    <thead><tr><th>নাম</th><th>সময়</th><th>পরিমাণ</th></tr></thead>
+                    <tbody id="todayLogsBody">
+                      <tr><td colspan="3" style="text-align:center;color:var(--text2);padding:16px">আজ কোনো বিতরণ নেই</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FUEL SETTINGS TAB -->
+      <div class="tab-content" id="tab-fuel-settings">
+        <h2 style="font-size:20px;font-weight:700;margin-bottom:20px">⚙️ জ্বালানি সেটিং</h2>
+        <div class="card" style="max-width:480px">
+          <div class="card-body">
+            <div class="form-group" style="margin-bottom:16px">
+              <label>প্রতিবার জ্বালানির পরিমাণ (লিটার)</label>
+              <input type="number" id="fuelAmount" value="5" min="1" max="50">
+            </div>
+            <div class="form-group" style="margin-bottom:20px">
+              <label>লক সময়কাল (দিন)</label>
+              <input type="number" id="lockDays" value="4" min="1" max="30">
+            </div>
+            <button class="btn btn-primary btn-block" onclick="saveFuelSettings()">💾 সেটিং সংরক্ষণ করুন</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOGS TAB -->
+      <div class="tab-content" id="tab-logs">
+        <h2 style="font-size:20px;font-weight:700;margin-bottom:20px">📋 লগ সিস্টেম</h2>
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchLogTab('fuel-logs',this)">⛽ জ্বালানি লগ</button>
+          <button class="tab-btn" onclick="switchLogTab('admin-logs',this)">🔐 অ্যাডমিন লগ</button>
+          <button class="tab-btn" onclick="switchLogTab('error-logs',this)">❌ ত্রুটি লগ</button>
+        </div>
+        <div class="tab-content active" id="log-fuel-logs">
+          <div class="card">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>ব্যবহারকারী</th><th>সিরিয়াল</th><th>তারিখ</th><th>সময়</th><th>পরিমাণ</th><th>স্ট্যাটাস</th></tr></thead>
+                <tbody id="fuelLogsBody">
+                  <tr><td colspan="6" class="loader"><div class="spinner"></div> লোড হচ্ছে...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="tab-content" id="log-admin-logs">
+          <div class="card">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>একশন</th><th>বিবরণ</th><th>সময়</th></tr></thead>
+                <tbody id="adminLogsBody">
+                  <tr><td colspan="3" class="loader"><div class="spinner"></div> লোড হচ্ছে...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="tab-content" id="log-error-logs">
+          <div class="card">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>ত্রুটি</th><th>বিবরণ</th><th>সময়</th></tr></thead>
+                <tbody id="errorLogsBody">
+                  <tr><td colspan="3" style="text-align:center;color:var(--text2);padding:20px">কোনো ত্রুটি নেই</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRINT TAB -->
+      <div class="tab-content" id="tab-print">
+        <h2 style="font-size:20px;font-weight:700;margin-bottom:20px">🖨️ কার্ড প্রিন্ট সিস্টেম</h2>
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchPrintTab('single',this)">📄 একক প্রিন্ট</button>
+          <button class="tab-btn" onclick="switchPrintTab('bulk',this)">📑 বাল্ক প্রিন্ট</button>
+        </div>
+        <div class="tab-content active" id="print-single">
+          <div class="form-group" style="margin-bottom:14px;max-width:340px">
+            <label>সিরিয়াল নম্বর বা ফোন</label>
+            <input type="text" id="printSearch" placeholder="সিরিয়াল বা ফোন নম্বর">
+          </div>
+          <button class="btn btn-primary" style="margin-bottom:20px" onclick="searchForPrint()">🔍 খুঁজুন</button>
+          <div id="printPreview"></div>
+        </div>
+        <div class="tab-content" id="print-bulk">
+          <div style="margin-bottom:16px;font-size:14px;color:var(--text2)">
+            অনুমোদিত সকল ব্যবহারকারীর কার্ড A4 পেজে ৩টি করে প্রিন্ট করুন।
+          </div>
+          <button class="btn btn-primary" onclick="bulkPrint()">🖨️ সকল কার্ড প্রিন্ট করুন</button>
+          <div id="bulkPrintArea" style="margin-top:20px"></div>
+        </div>
+      </div>
+
+    </div><!-- admin-content -->
+  </div><!-- admin-layout -->
+</div>
+
+</div><!-- main -->
+
+<!-- ══════════════════════════════════════════
+     MODALS
+══════════════════════════════════════════ -->
+
+<!-- Success Modal -->
+<div class="modal-overlay hidden" id="successModal">
+  <div class="modal success-popup">
+    <div class="modal-body" style="text-align:center;padding:32px 24px">
+      <div class="success-icon">✅</div>
+      <h3>আবেদন সফল হয়েছে!</h3>
+      <p style="margin-bottom:16px">ধন্যবাদ! আপনার রেজিস্ট্রেশন সম্পন্ন হয়েছে।</p>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:8px">আপনার সিরিয়াল নম্বর</div>
+      <div class="serial-box" id="successSerial">00001</div>
+      <div class="tracking-id-box" style="margin-top:16px">
+        <div class="label">ট্র্যাকিং আইডি</div>
+        <div class="value" id="successTrackingId">01700000000001</div>
+      </div>
+      <p style="font-size:12px;color:var(--text2)">এই নম্বরটি সংরক্ষণ করুন। UNO অনুমোদনের পরে আপনাকে জানানো হবে।</p>
+      <button class="btn btn-primary" style="margin-top:16px;width:100%" onclick="closeModal('successModal')">ঠিক আছে</button>
+    </div>
+  </div>
+</div>
+
+<!-- View User Modal -->
+<div class="modal-overlay hidden" id="viewUserModal">
+  <div class="modal" style="max-width:580px">
+    <div class="modal-header">
+      <div class="modal-title" style="font-size:16px;font-weight:700">👤 আবেদনকারীর তথ্য</div>
+      <button class="modal-close" onclick="closeModal('viewUserModal')">×</button>
+    </div>
+    <div class="modal-body" id="viewUserBody"></div>
+    <div class="modal-footer" id="viewUserActions"></div>
+  </div>
+</div>
+
+<!-- Reject Reason Modal -->
+<div class="modal-overlay hidden" id="rejectModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div style="font-size:16px;font-weight:700">❌ প্রত্যাখ্যানের কারণ</div>
+      <button class="modal-close" onclick="closeModal('rejectModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>কারণ লিখুন</label>
+        <textarea id="rejectReason" placeholder="কেন আবেদনটি প্রত্যাখ্যান করা হচ্ছে তা লিখুন..." rows="4"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-sm" style="background:var(--surface2);color:var(--text)" onclick="closeModal('rejectModal')">বাতিল</button>
+      <button class="btn btn-sm btn-danger" onclick="confirmReject()">❌ প্রত্যাখ্যান নিশ্চিত করুন</button>
+    </div>
+  </div>
+</div>
+
+<!-- Card Preview Modal -->
+<div class="modal-overlay hidden" id="cardModal">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header">
+      <div style="font-size:16px;font-weight:700">🎫 Fuel Card প্রিভিউ</div>
+      <button class="modal-close" onclick="closeModal('cardModal')">×</button>
+    </div>
+    <div class="modal-body" id="cardModalBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-sm" style="background:var(--surface2);color:var(--text)" onclick="closeModal('cardModal')">বন্ধ করুন</button>
+      <button class="btn btn-sm btn-primary" onclick="printCard()">🖨️ প্রিন্ট করুন</button>
+      <button class="btn btn-sm btn-success" onclick="downloadCardPDF()">📥 PDF ডাউনলোড</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// FIREBASE CONFIG
+// ══════════════════════════════════════════
+const DB_URL = 'https://batc-bakshiganj-default-rtdb.firebaseio.com';
+
+async function dbGet(path) {
+  try {
+    const r = await fetch(`${DB_URL}/${path}.json`);
+    if (!r.ok) throw new Error('Network error');
+    return r.json();
+  } catch(e) { console.error('dbGet error:', path, e); return null; }
+}
+async function dbSet(path, data) {
+  try {
+    return fetch(`${DB_URL}/${path}.json`, {
+      method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)
+    });
+  } catch(e) { console.error('dbSet error:', path, e); }
+}
+async function dbPush(path, data) {
+  try {
+    return fetch(`${DB_URL}/${path}.json`, {
+      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)
+    });
+  } catch(e) { console.error('dbPush error:', path, e); }
+}
+async function dbUpdate(path, data) {
+  try {
+    return fetch(`${DB_URL}/${path}.json`, {
+      method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)
+    });
+  } catch(e) { console.error('dbUpdate error:', path, e); }
+}
+async function dbDelete(path) {
+  try {
+    return fetch(`${DB_URL}/${path}.json`, { method:'DELETE' });
+  } catch(e) { console.error('dbDelete error:', path, e); }
+}
+
+// ══════════════════════════════════════════
+// LOCAL STORAGE CACHE
+// ══════════════════════════════════════════
+const CACHE_TTL = 30000; // 30 seconds
+function cacheSet(key, data) {
+  try { localStorage.setItem('fp_' + key, JSON.stringify({ d: data, t: Date.now() })); } catch(e) {}
+}
+function cacheGet(key) {
+  try {
+    const raw = localStorage.getItem('fp_' + key);
+    if (!raw) return null;
+    const { d, t } = JSON.parse(raw);
+    if (Date.now() - t > CACHE_TTL) { localStorage.removeItem('fp_' + key); return null; }
+    return d;
+  } catch(e) { return null; }
+}
+function cacheClear(key) {
+  try { localStorage.removeItem('fp_' + key); } catch(e) {}
+}
+function cacheInvalidateAll() {
+  try {
+    Object.keys(localStorage).filter(k => k.startsWith('fp_')).forEach(k => localStorage.removeItem(k));
+  } catch(e) {}
+}
+async function dbGetCached(path) {
+  const cached = cacheGet(path);
+  if (cached !== null) return cached;
+  const data = await dbGet(path);
+  if (data !== null) cacheSet(path, data);
+  return data;
+}
+
+// ══════════════════════════════════════════
+// SERIAL NUMBER — Atomic, no-jump, no-race
+// ══════════════════════════════════════════
+const SERIAL_LOCK_KEY = 'fp_serial_lock';
+async function getNextSerial() {
+  // Use localStorage lock to prevent race conditions in same browser tab
+  // For cross-device: use Firebase conditional set with retry
+  const maxRetries = 8;
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    // Read current counter
+    const current = await dbGet('meta/serial');
+    const currentVal = (typeof current === 'number') ? current : 0;
+    const next = currentVal + 1;
+    // Try to atomically set: only succeeds if value hasn't changed
+    // Firebase doesn't have native transactions via REST, so we use
+    // optimistic concurrency: set then verify
+    await dbSet('meta/serial', next);
+    await new Promise(r => setTimeout(r, 80 + Math.random() * 60));
+    const verify = await dbGet('meta/serial');
+    if (verify === next) {
+      cacheClear('meta/serial');
+      return String(next).padStart(5, '0');
+    }
+    // Value changed — someone else wrote, retry with exponential backoff
+    await new Promise(r => setTimeout(r, 100 * (attempt + 1) + Math.random() * 100));
+  }
+  // Fallback: just use current+1 even if verify failed
+  const fallback = await dbGet('meta/serial');
+  return String(((typeof fallback === 'number') ? fallback : 1)).padStart(5, '0');
+}
+
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+let allRequests = {};
+let allApproved = {};
+let allLogs = {};
+let fuelSettings = { amount: 5, lockDays: 4 };
+let currentRejectId = null;
+let currentCardUser = null;
+let qrScanner = null;
+let isAdminLoggedIn = false;
+let isSuperAdmin = false;
+
+// ══════════════════════════════════════════
+// THEME
+// ══════════════════════════════════════════
+function toggleTheme() {
+  const html = document.documentElement;
+  html.setAttribute('data-theme', html.getAttribute('data-theme')==='dark' ? 'light' : 'dark');
+}
+
+// ══════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const pg = document.getElementById('page-'+name);
+  if (pg) pg.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+  if (name === 'admin' && isAdminLoggedIn) {
+    loadDashboard();
+    loadRequests();
+    loadApproved();
+    loadRejected();
+    loadFuelLogs();
+    loadAdminLogs();
+    loadFuelSettings();
+  }
+}
+function setMobileNav(el) {
+  document.querySelectorAll('.mobile-nav-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ══════════════════════════════════════════
+// FILE UPLOAD → BASE64
+// ══════════════════════════════════════════
+let uploadedFiles = {};
+function handleFileSelect(input, areaId, previewId) {
+  const file = input.files[0];
+  if (!file) return;
+  const area = document.getElementById(areaId);
+  area.style.borderColor = 'var(--success)';
+  area.style.background = 'rgba(5,150,105,0.04)';
+  document.getElementById(previewId).textContent = '✅ ' + file.name;
+  const reader = new FileReader();
+  reader.onload = e => { uploadedFiles[input.id] = e.target.result; };
+  reader.readAsDataURL(file);
+}
+
+// ══════════════════════════════════════════
+// SERIAL NUMBER
+// ══════════════════════════════════════════
+async function getNextSerial() {
+  const counter = await dbGet('meta/serial');
+  const next = counter ? counter + 1 : 1;
+  await dbSet('meta/serial', next);
+  return String(next).padStart(5, '0');
+}
+
+// ══════════════════════════════════════════
+// SUBMIT APPLICATION
+// ══════════════════════════════════════════
+async function submitApplication(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.textContent = '⏳ জমা হচ্ছে...';
+  try {
+    const serial = await getNextSerial();
+    const phone = document.getElementById('app_phone').value.trim();
+    const trackingId = phone + serial;
+    const userData = {
+      serial, trackingId,
+      name: document.getElementById('app_name').value.trim(),
+      phone,
+      nid: document.getElementById('app_nid').value.trim(),
+      license: document.getElementById('app_license').value.trim(),
+      village: document.getElementById('app_village').value.trim(),
+      ward: document.getElementById('app_ward').value,
+      union: document.getElementById('app_union').value,
+      occupation: document.getElementById('app_occupation').value,
+      photo: uploadedFiles['app_photo'] || '',
+      licenseImg: uploadedFiles['app_license_img'] || '',
+      cert: uploadedFiles['app_cert'] || '',
+      status: 'pending',
+      appliedAt: new Date().toISOString(),
+      downloadCount: 0
+    };
+    await dbPush('requests', userData);
+    document.getElementById('successSerial').textContent = serial;
+    document.getElementById('successTrackingId').textContent = trackingId;
+    document.getElementById('successModal').classList.remove('hidden');
+    document.getElementById('applyForm').reset();
+    uploadedFiles = {};
+    document.querySelectorAll('.file-upload-area').forEach(a => {
+      a.style.borderColor = ''; a.style.background = '';
+    });
+    document.querySelectorAll('.file-name').forEach(f => f.textContent = '');
+  } catch(err) {
+    showToast('সার্ভার সমস্যা। আবার চেষ্টা করুন।', 'error');
+  }
+  btn.disabled = false; btn.textContent = '✅ আবেদন জমা দিন';
+}
+
+// ══════════════════════════════════════════
+// CHECK STATUS
+// ══════════════════════════════════════════
+async function checkStatus() {
+  const phone = document.getElementById('statusPhone').value.trim();
+  if (!phone) { showToast('ফোন নম্বর দিন', 'error'); return; }
+  const result = document.getElementById('statusResult');
+  result.innerHTML = '<div class="loader"><div class="spinner"></div> খোঁজা হচ্ছে...</div>';
+  const [reqs, approved] = await Promise.all([dbGet('requests'), dbGet('approved')]);
+  let found = null;
+  if (reqs) Object.entries(reqs).forEach(([k,v]) => { if (v.phone === phone) found = v; });
+  if (!found && approved) Object.entries(approved).forEach(([k,v]) => { if (v.phone === phone) found = v; });
+  if (!found) {
+    result.innerHTML = `<div style="text-align:center;padding:20px;color:var(--danger)">❌ কোনো আবেদন পাওয়া যায়নি</div>`;
+    return;
+  }
+  const statusMap = {
+    pending: {label:'অনুমোদনের অপেক্ষায়', color:'warning', icon:'⏳'},
+    approved: {label:'অনুমোদিত', color:'success', icon:'✅'},
+    rejected: {label:'প্রত্যাখ্যাত', color:'danger', icon:'❌'},
+    hold: {label:'হোল্ড', color:'info', icon:'🔄'}
+  };
+  const s = statusMap[found.status] || statusMap.pending;
+  result.innerHTML = `
+    <div class="card" style="border-top:4px solid var(--${s.color})">
+      <div class="card-body">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div>
+            <div style="font-size:18px;font-weight:700">${found.name}</div>
+            <div style="font-size:13px;color:var(--text2)">${found.occupation}</div>
+          </div>
+          <span class="badge badge-${s.color}" style="font-size:14px;padding:6px 14px">${s.icon} ${s.label}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px">
+          <div><span style="color:var(--text2)">সিরিয়াল:</span> <strong>${found.serial}</strong></div>
+          <div><span style="color:var(--text2)">ট্র্যাকিং:</span> <strong>${found.trackingId}</strong></div>
+          <div><span style="color:var(--text2)">আবেদন তারিখ:</span> ${new Date(found.appliedAt).toLocaleDateString('bn-BD')}</div>
+          <div><span style="color:var(--text2)">ওয়ার্ড:</span> ${found.ward}</div>
+        </div>
+        ${found.rejectReason ? `<div style="margin-top:12px;padding:10px;background:#fee2e2;border-radius:8px;font-size:13px;color:#991b1b"><strong>কারণ:</strong> ${found.rejectReason}</div>` : ''}
+      </div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════
+// DOWNLOAD CARD
+// ══════════════════════════════════════════
+async function downloadCard() {
+  const phone = document.getElementById('dlPhone').value.trim();
+  const license = document.getElementById('dlLicense').value.trim();
+  if (!phone || !license) { showToast('ফোন ও লাইসেন্স নম্বর দিন', 'error'); return; }
+  const result = document.getElementById('downloadResult');
+  result.innerHTML = '<div class="loader"><div class="spinner"></div> যাচাই করা হচ্ছে...</div>';
+  const approved = await dbGet('approved');
+  let foundKey = null, found = null;
+  if (approved) Object.entries(approved).forEach(([k,v]) => {
+    if (v.phone === phone && v.license === license) { foundKey = k; found = v; }
+  });
+  if (!found) {
+    result.innerHTML = `<div style="color:var(--danger);text-align:center;padding:16px">❌ তথ্য মিলছে না বা আপনি এখনো অনুমোদিত নন।</div>`;
+    return;
+  }
+  if (found.downloadCount >= 1) {
+    result.innerHTML = `<div style="color:var(--warning);text-align:center;padding:16px">⚠️ এই কার্ড আগেই ডাউনলোড করা হয়েছে। পুনরায় ডাউনলোড সম্ভব নয়।</div>`;
+    return;
+  }
+  // Mark as downloaded
+  await dbUpdate(`approved/${foundKey}`, { downloadCount: 1 });
+  currentCardUser = found;
+  result.innerHTML = `<div style="color:var(--success);text-align:center;padding:10px">✅ যাচাই সফল। কার্ড তৈরি হচ্ছে...</div>`;
+  setTimeout(() => {
+    renderCardAndDownload(found);
+  }, 500);
+}
+
+// ══════════════════════════════════════════
+// ADMIN LOGIN / LOGOUT
+// ══════════════════════════════════════════
+async function adminLogin() {
+  const user = document.getElementById('adminUser').value;
+  const pass = document.getElementById('adminPass').value;
+  if (user === 'uno@2026' && pass === '1.7320508075688') {
+    isAdminLoggedIn = true;
+    showPage('admin');
+    addAdminLog('লগইন', 'অ্যাডমিন সফলভাবে লগইন করেছেন');
+    showToast('স্বাগতম! লগইন সফল।', 'success');
+    startAutoRefresh('dashboard');
+    showRefreshBadge('dashboard');
+  } else {
+    showToast('ভুল ব্যবহারকারী নাম বা পাসওয়ার্ড', 'error');
+  }
+}
+async function adminLogout() {
+  addAdminLog('লগআউট', 'অ্যাডমিন লগআউট করেছেন');
+  isAdminLoggedIn = false;
+  stopAutoRefresh();
+  const badge = document.getElementById('autoRefreshBadge');
+  if (badge) badge.remove();
+  showPage('home');
+  showToast('সফলভাবে লগআউট হয়েছে।', 'success');
+}
+
+// ══════════════════════════════════════════
+// ADMIN TABS + AUTO-REFRESH
+// ══════════════════════════════════════════
+let autoRefreshInterval = null;
+let currentAdminTab = 'dashboard';
+
+function startAutoRefresh(tab) {
+  stopAutoRefresh();
+  const refreshFns = {
+    'dashboard': () => loadDashboard(),
+    'requests':  () => loadRequests(),
+    'approved':  () => loadApproved(),
+    'rejected':  () => loadRejected(),
+    'logs':      () => loadFuelLogs(),
+    'scanner':   () => loadTodayLogs(),
+  };
+  if (refreshFns[tab]) {
+    autoRefreshInterval = setInterval(() => {
+      if (isAdminLoggedIn) refreshFns[tab]();
+    }, 20000); // refresh every 20 seconds
+  }
+}
+function stopAutoRefresh() {
+  if (autoRefreshInterval) { clearInterval(autoRefreshInterval); autoRefreshInterval = null; }
+}
+
+function switchAdminTab(tab, el) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  el.classList.add('active');
+  currentAdminTab = tab;
+  // Load on tab switch
+  if (tab === 'logs') loadFuelLogs();
+  if (tab === 'approved') loadApproved();
+  if (tab === 'rejected') loadRejected();
+  if (tab === 'scanner') loadTodayLogs();
+  if (tab === 'dashboard') loadDashboard();
+  if (tab === 'requests') loadRequests();
+  startAutoRefresh(tab);
+  // Show refresh indicator badge in tab header
+  showRefreshBadge(tab);
+}
+
+function showRefreshBadge(tab) {
+  const existing = document.getElementById('autoRefreshBadge');
+  if (existing) existing.remove();
+  const tabEl = document.getElementById('tab-'+tab);
+  if (!tabEl) return;
+  const badge = document.createElement('div');
+  badge.id = 'autoRefreshBadge';
+  badge.style.cssText = 'position:fixed;bottom:80px;right:16px;background:#0f2d5a;color:#fff;border-radius:99px;padding:5px 12px;font-size:11px;font-weight:600;z-index:999;display:flex;align-items:center;gap:6px;box-shadow:0 3px 12px rgba(15,45,90,0.35)';
+  badge.innerHTML = `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 1.5s infinite"></span> অটো রিফ্রেশ চালু`;
+  document.body.appendChild(badge);
+}
+
+// Pulse animation for live indicator
+const liveStyle = document.createElement('style');
+liveStyle.textContent = `@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.3)}}`;
+document.head.appendChild(liveStyle);
+function switchLogTab(tab, el) {
+  document.querySelectorAll('[id^="log-"]').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tabs .tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('log-'+tab).classList.add('active');
+  el.classList.add('active');
+}
+function switchPrintTab(tab, el) {
+  document.querySelectorAll('[id^="print-"]').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('#tab-print .tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('print-'+tab).classList.add('active');
+  el.classList.add('active');
+}
+
+// ══════════════════════════════════════════
+// LOAD DASHBOARD
+// ══════════════════════════════════════════
+async function loadDashboard() {
+  const [reqs, approved] = await Promise.all([dbGet('requests'), dbGet('approved')]);
+  const reqArr = reqs ? Object.values(reqs) : [];
+  const appArr = approved ? Object.values(approved) : [];
+  const pending = reqArr.filter(r => r.status === 'pending').length;
+  const rejected = reqArr.filter(r => r.status === 'rejected').length;
+  const total = reqArr.length + appArr.length;
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statPending').textContent = pending;
+  document.getElementById('statApproved').textContent = appArr.length;
+  document.getElementById('statRejected').textContent = rejected;
+  document.getElementById('pendingCount').textContent = pending;
+  const settings = await dbGet('fuelSettings');
+  if (settings) {
+    fuelSettings = settings;
+    document.getElementById('dashFuelAmount').textContent = settings.amount + ' লিটার';
+    document.getElementById('dashLockDays').textContent = settings.lockDays + ' দিন';
+  }
+  // Today fuel total
+  const logs = await dbGet('logs');
+  if (logs) {
+    const today = new Date().toDateString();
+    const todayLiters = Object.values(logs)
+      .filter(l => l.type === 'fuel' && l.status === 'success' && new Date(l.time).toDateString() === today)
+      .reduce((sum, l) => sum + (l.amount || 0), 0);
+    document.getElementById('statTodayFuel').textContent = todayLiters;
+  }
+}
+
+// ══════════════════════════════════════════
+// LOAD REQUESTS
+// ══════════════════════════════════════════
+async function loadRequests() {
+  const reqs = await dbGet('requests');
+  allRequests = reqs || {};
+  renderRequestsTable(Object.entries(allRequests).filter(([k,v]) => v.status === 'pending' || v.status === 'hold'));
+}
+function filterRequests() {
+  const q = document.getElementById('reqSearch').value.toLowerCase();
+  const f = document.getElementById('reqFilter').value;
+  let entries = Object.entries(allRequests);
+  if (f !== 'all') entries = entries.filter(([k,v]) => v.status === f);
+  if (q) entries = entries.filter(([k,v]) => v.name?.toLowerCase().includes(q) || v.phone?.includes(q));
+  renderRequestsTable(entries);
+}
+function renderRequestsTable(entries) {
+  const tbody = document.getElementById('reqTableBody');
+  if (!entries.length) { tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">📭</div><p>কোনো আবেদন নেই</p></div></td></tr>`; return; }
+  tbody.innerHTML = entries.map(([k,v]) => `
+    <tr>
+      <td><strong>${v.serial || '-'}</strong></td>
+      <td>${v.name}</td>
+      <td>${v.phone}</td>
+      <td>${v.occupation}</td>
+      <td>${v.ward}</td>
+      <td><span class="badge badge-${v.status==='pending'?'warning':v.status==='approved'?'success':v.status==='hold'?'info':'danger'}">${
+        v.status==='pending'?'⏳ অপেক্ষমান':v.status==='approved'?'✅ অনুমোদিত':v.status==='hold'?'🔄 হোল্ড':'❌ প্রত্যাখ্যাত'
+      }</span></td>
+      <td>
+        <div style="display:flex;gap:4px;flex-wrap:wrap">
+          <button class="btn btn-sm btn-info" onclick="viewUser('${k}','request')">👁</button>
+          <button class="btn btn-sm btn-success" onclick="approveUser('${k}')">✅</button>
+          <button class="btn btn-sm btn-warning" onclick="holdUser('${k}')">🔄</button>
+          <button class="btn btn-sm btn-danger" onclick="openRejectModal('${k}')">❌</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+// ══════════════════════════════════════════
+// APPROVE / REJECT / HOLD
+// ══════════════════════════════════════════
+async function approveUser(key) {
+  const user = allRequests[key];
+  if (!user) return;
+  user.status = 'approved';
+  user.approvedAt = new Date().toISOString();
+  user.downloadCount = 0;
+  await dbPush('approved', user);
+  await dbUpdate(`requests/${key}`, {status:'approved'});
+  allRequests[key].status = 'approved';
+  addAdminLog('অনুমোদন', `${user.name} (${user.serial}) এর আবেদন অনুমোদন করা হয়েছে`);
+  showToast(user.name + ' কে অনুমোদন দেওয়া হয়েছে', 'success');
+  loadRequests(); loadDashboard();
+}
+function openRejectModal(key) {
+  currentRejectId = key;
+  document.getElementById('rejectReason').value = '';
+  document.getElementById('rejectModal').classList.remove('hidden');
+}
+async function confirmReject() {
+  const key = currentRejectId;
+  const reason = document.getElementById('rejectReason').value.trim();
+  if (!reason) { showToast('কারণ লিখুন', 'error'); return; }
+  const user = allRequests[key];
+  await dbUpdate(`requests/${key}`, {status:'rejected', rejectReason:reason, rejectedAt:new Date().toISOString()});
+  allRequests[key].status = 'rejected';
+  addAdminLog('প্রত্যাখ্যান', `${user.name} (${user.serial}) প্রত্যাখ্যাত: ${reason}`);
+  showToast('আবেদন প্রত্যাখ্যাত করা হয়েছে', 'warning');
+  closeModal('rejectModal');
+  loadRequests(); loadDashboard();
+}
+async function holdUser(key) {
+  const user = allRequests[key];
+  await dbUpdate(`requests/${key}`, {status:'hold'});
+  allRequests[key].status = 'hold';
+  addAdminLog('হোল্ড', `${user.name} (${user.serial}) এর আবেদন হোল্ড করা হয়েছে`);
+  showToast('আবেদন হোল্ডে রাখা হয়েছে', 'warning');
+  loadRequests();
+}
+
+// ══════════════════════════════════════════
+// LOAD APPROVED
+// ══════════════════════════════════════════
+async function loadApproved() {
+  const approved = await dbGet('approved');
+  allApproved = approved || {};
+  renderApprovedTable(Object.entries(allApproved));
+}
+function filterApproved() {
+  const q = document.getElementById('appSearch').value.toLowerCase();
+  let entries = Object.entries(allApproved);
+  if (q) entries = entries.filter(([k,v]) => v.name?.toLowerCase().includes(q) || v.phone?.includes(q));
+  renderApprovedTable(entries);
+}
+function renderApprovedTable(entries) {
+  const tbody = document.getElementById('appTableBody');
+  if (!entries.length) { tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">📭</div><p>কোনো অনুমোদিত ব্যবহারকারী নেই</p></div></td></tr>`; return; }
+  tbody.innerHTML = entries.map(([k,v]) => `
+    <tr>
+      <td><strong>${v.serial}</strong></td>
+      <td>${v.name}</td>
+      <td>${v.phone}</td>
+      <td>${v.occupation}</td>
+      <td>${v.lastFuel ? new Date(v.lastFuel).toLocaleDateString('bn-BD') : '—'}</td>
+      <td>
+        <div style="display:flex;gap:4px;flex-wrap:wrap">
+          <button class="btn btn-sm btn-info" onclick="viewUser('${k}','approved')" title="তথ্য দেখুন">👁 দেখুন</button>
+          <button class="btn btn-sm btn-primary" onclick="showCardPreview('${k}')" title="কার্ড দেখুন">🎫 কার্ড</button>
+          <button class="btn btn-sm btn-success" onclick="quickDownloadCard('${k}')" title="সরাসরি ডাউনলোড">📥 PDF</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+// ══════════════════════════════════════════
+// LOAD REJECTED
+// ══════════════════════════════════════════
+async function loadRejected() {
+  const reqs = await dbGet('requests');
+  const rejected = reqs ? Object.entries(reqs).filter(([k,v]) => v.status === 'rejected') : [];
+  const tbody = document.getElementById('rejTableBody');
+  if (!rejected.length) { tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">✅</div><p>কোনো প্রত্যাখ্যান নেই</p></div></td></tr>`; return; }
+  tbody.innerHTML = rejected.map(([k,v]) => `
+    <tr>
+      <td>${v.serial}</td>
+      <td>${v.name}</td>
+      <td>${v.phone}</td>
+      <td>${v.rejectReason || '—'}</td>
+      <td>${v.rejectedAt ? new Date(v.rejectedAt).toLocaleDateString('bn-BD') : '—'}</td>
+    </tr>`).join('');
+}
+
+// ══════════════════════════════════════════
+// VIEW USER
+// ══════════════════════════════════════════
+function viewUser(key, source) {
+  const user = source === 'approved' ? allApproved[key] : allRequests[key];
+  if (!user) return;
+  document.getElementById('viewUserBody').innerHTML = `
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start">
+      <div style="width:80px;height:80px;border-radius:10px;overflow:hidden;background:var(--surface2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:32px">
+        ${user.photo ? `<img src="${user.photo}" style="width:100%;height:100%;object-fit:cover">` : '👤'}
+      </div>
+      <div>
+        <div style="font-size:18px;font-weight:700">${user.name}</div>
+        <div style="font-size:13px;color:var(--text2)">${user.occupation}</div>
+        <span class="badge badge-${user.status==='approved'?'success':'warning'}" style="margin-top:6px">${user.status}</span>
+      </div>
+    </div>
+    <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px">
+      <div><div style="color:var(--text2);font-size:11px">ফোন</div><strong>${user.phone}</strong></div>
+      <div><div style="color:var(--text2);font-size:11px">NID</div><strong>${user.nid}</strong></div>
+      <div><div style="color:var(--text2);font-size:11px">লাইসেন্স</div><strong>${user.license}</strong></div>
+      <div><div style="color:var(--text2);font-size:11px">সিরিয়াল</div><strong>${user.serial}</strong></div>
+      <div><div style="color:var(--text2);font-size:11px">ওয়ার্ড</div><strong>${user.ward}</strong></div>
+      <div><div style="color:var(--text2);font-size:11px">ইউনিয়ন</div><strong>${user.union}</strong></div>
+      <div style="grid-column:1/-1"><div style="color:var(--text2);font-size:11px">গ্রাম</div><strong>${user.village}</strong></div>
+      <div style="grid-column:1/-1"><div style="color:var(--text2);font-size:11px">আবেদন তারিখ</div><strong>${new Date(user.appliedAt).toLocaleString('bn-BD')}</strong></div>
+    </div>`;
+  const actions = document.getElementById('viewUserActions');
+  if (source === 'request' && user.status === 'pending') {
+    actions.innerHTML = `
+      <button class="btn btn-sm" style="background:var(--surface2);color:var(--text)" onclick="closeModal('viewUserModal')">বন্ধ করুন</button>
+      <button class="btn btn-sm btn-success" onclick="approveUser('${key}');closeModal('viewUserModal')">✅ অনুমোদন</button>
+      <button class="btn btn-sm btn-danger" onclick="closeModal('viewUserModal');openRejectModal('${key}')">❌ প্রত্যাখ্যান</button>`;
+  } else {
+    actions.innerHTML = `<button class="btn btn-sm" style="background:var(--surface2);color:var(--text)" onclick="closeModal('viewUserModal')">বন্ধ করুন</button>`;
+  }
+  document.getElementById('viewUserModal').classList.remove('hidden');
+}
+
+// ══════════════════════════════════════════
+// CARD GENERATION
+// ══════════════════════════════════════════
+function generateCardHTML(user, includeQR = true) {
+  const qrId = 'qrContainer_' + user.serial;
+  return `
+    <div class="fuel-card-wrap">
+    <div class="fuel-card" id="fuelCardEl_${user.serial}">
+      <!-- HEADER STRIPE -->
+      <div class="fid-header">
+        <div class="fid-header-left">
+          <div class="fid-gov-logo">⛽</div>
+          <div class="fid-gov-text">
+            <div class="fid-t1">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</div>
+            <div class="fid-t2">জ্বালানি পাস সিস্টেম</div>
+            <div class="fid-t3">বকশিগঞ্জ উপজেলা, জামালপুর</div>
+          </div>
+        </div>
+        <div class="fid-header-right">
+          <div class="fid-pass-label">FUEL PASS</div>
+          <div class="fid-serial-badge">SN: ${user.serial}</div>
+        </div>
+      </div>
+
+      <!-- BODY -->
+      <div class="fid-body">
+        <!-- LEFT: Photo + Serial + QR -->
+        <div class="fid-left">
+          <div class="fid-photo">
+            ${user.photo ? `<img src="${user.photo}" alt="photo">` : '👤'}
+          </div>
+          <div class="fid-serial-box">
+            <span class="fid-serial-label">সিরিয়াল নম্বর</span>
+            ${user.serial}
+          </div>
+          <div class="fid-qr-box" id="${qrId}">
+            <div style="width:72px;height:72px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999">QR লোড হচ্ছে...</div>
+          </div>
+        </div>
+
+        <!-- MIDDLE: Info Fields -->
+        <div class="fid-mid">
+          <div>
+            <div class="fid-name">${user.name}</div>
+            <div class="fid-occupation-chip">⚙️ ${user.occupation}</div>
+            <div class="fid-fields">
+              <div class="fid-field">
+                <div class="fid-field-label">NID নং</div>
+                <div class="fid-field-value">${user.nid || '—'}</div>
+              </div>
+              <div class="fid-field">
+                <div class="fid-field-label">ইউনিয়ন</div>
+                <div class="fid-field-value">${user.union || '—'}</div>
+              </div>
+              <div class="fid-field">
+                <div class="fid-field-label">ওয়ার্ড</div>
+                <div class="fid-field-value">${user.ward || '—'}</div>
+              </div>
+              <div class="fid-field">
+                <div class="fid-field-label">গ্রাম</div>
+                <div class="fid-field-value">${user.village || '—'}</div>
+              </div>
+              <div class="fid-field">
+                <div class="fid-field-label">মোবাইল</div>
+                <div class="fid-field-value">${user.phone || '—'}</div>
+              </div>
+            </div>
+          </div>
+          <div style="border-top:1px solid rgba(15,45,90,0.18);padding-top:5px;margin-top:4px;text-align:right;font-size:8px;color:#0f2d5a;line-height:1.6">
+            <div style="border-bottom:1.5px solid #0f2d5a;width:110px;margin-left:auto;margin-bottom:3px;"></div>
+            <div style="font-weight:800">উপজেলা নির্বাহী অফিসার</div>
+            <div style="opacity:0.75">বকশিগঞ্জ, জামালপুর</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER STRIPE -->
+      <div class="fid-footer">
+        <div class="fid-footer-left">⛽ পাম্প: পরেশ চন্দ্র পাম্প, বকশিগঞ্জ</div>
+        <div class="fid-footer-right">DIGITAL FUEL PASS 🇧🇩</div>
+      </div>
+    </div>
+    </div>`;
+}
+
+function showCardPreview(key) {
+  const user = allApproved[key];
+  if (!user) return;
+  currentCardUser = user;
+  document.getElementById('cardModalBody').innerHTML = generateCardHTML(user);
+  document.getElementById('cardModal').classList.remove('hidden');
+  setTimeout(() => generateQRForCard(user), 400);
+}
+
+async function quickDownloadCard(key) {
+  const user = allApproved[key];
+  if (!user) return;
+  currentCardUser = user;
+  // Render card in temp hidden div
+  const tempDiv = document.createElement('div');
+  tempDiv.style.cssText = 'position:fixed;left:-9999px;top:0;z-index:-1;';
+  document.body.appendChild(tempDiv);
+  tempDiv.innerHTML = generateCardHTML(user);
+  await new Promise(r => setTimeout(r, 300));
+  generateQRForCard(user);
+  await new Promise(r => setTimeout(r, 500));
+  await downloadCardPDFFromEl(user);
+  document.body.removeChild(tempDiv);
+  addAdminLog('ডাউনলোড', `${user.name} (${user.serial}) কার্ড ডাউনলোড করা হয়েছে`);
+}
+
+function generateQRForCard(user) {
+  // QR data: serial number + name (as per requirement)
+  const qrData = JSON.stringify({
+    serial: user.serial,
+    name: user.name,
+    phone: user.phone,
+    nid: user.nid,
+    id: user.trackingId
+  });
+  const el = document.getElementById('qrContainer_' + user.serial);
+  if (el && window.QRCode) {
+    el.innerHTML = '';
+    new QRCode(el, {
+      text: qrData, width: 72, height: 72,
+      colorDark: '#0f2d5a', colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  }
+}
+
+function renderCardAndDownload(user) {
+  const resultEl = document.getElementById('downloadResult');
+  resultEl.innerHTML = '<div style="margin-bottom:12px;font-size:14px;color:var(--text2)">কার্ড প্রস্তুত হচ্ছে...</div>' + generateCardHTML(user);
+  setTimeout(() => {
+    generateQRForCard(user);
+    setTimeout(() => downloadCardPDFFromEl(user), 800);
+  }, 400);
+}
+
+async function downloadCardPDF() {
+  if (!currentCardUser) return;
+  await downloadCardPDFFromEl(currentCardUser);
+  addAdminLog('ডাউনলোড', `${currentCardUser.name} (${currentCardUser.serial}) কার্ড ডাউনলোড করেছেন`);
+}
+
+function printCard() {
+  const el = document.getElementById('fuelCardEl_' + currentCardUser?.serial);
+  if (!el) return;
+  const win = window.open('', '_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>Fuel Pass - ${currentCardUser.serial}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700;900&family=Noto+Serif+Bengali:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'Hind Siliguri',sans-serif}
+    @page{size:6in 4in landscape;margin:0}
+    @media print{body{min-height:unset}}
+    ${document.querySelector('style').textContent}
+  </style></head><body>
+  <div style="width:576px;height:384px">${el.outerHTML}</div>
+  <script>window.onload=function(){setTimeout(function(){window.print();window.close()},500)}<\/script>
+  </body></html>`);
+  win.document.close();
+}
+async function downloadCardPDFFromEl(user) {
+  try {
+    const el = document.getElementById('fuelCardEl_' + user.serial);
+    if (!el) { showToast('কার্ড এলিমেন্ট পাওয়া যায়নি', 'error'); return; }
+    showToast('PDF তৈরি হচ্ছে...', 'info');
+    const canvas = await html2canvas(el, {
+      scale: 3, useCORS: true, backgroundColor: '#ffffff',
+      width: 576, height: 384, logging: false
+    });
+    const { jsPDF } = window.jspdf;
+    // 6x4 inch landscape PDF
+    const pdf = new jsPDF({ orientation: 'landscape', unit: 'in', format: [6, 4] });
+    const imgData = canvas.toDataURL('image/png');
+    pdf.addImage(imgData, 'PNG', 0, 0, 6, 4);
+    pdf.save(`FuelPass_${user.serial}_${user.name}.pdf`);
+    showToast('✅ কার্ড ডাউনলোড সম্পন্ন!', 'success');
+  } catch(e) {
+    console.error(e);
+    showToast('ডাউনলোডে সমস্যা হয়েছে: ' + e.message, 'error');
+  }
+}
+
+async function searchForPrint() {
+  const q = document.getElementById('printSearch').value.trim();
+  const approved = await dbGet('approved');
+  let found = null;
+  if (approved) Object.entries(approved).forEach(([k,v]) => {
+    if (v.serial === q || v.phone === q) found = v;
+  });
+  if (!found) { document.getElementById('printPreview').innerHTML = `<div style="color:var(--danger);padding:10px">পাওয়া যায়নি</div>`; return; }
+  currentCardUser = found;
+  document.getElementById('printPreview').innerHTML = generateCardHTML(found);
+  setTimeout(() => generateQRForCard(found), 300);
+}
+
+async function bulkPrint() {
+  const approved = await dbGet('approved');
+  if (!approved) { showToast('কোনো অনুমোদিত ব্যবহারকারী নেই', 'warning'); return; }
+  const users = Object.values(approved);
+  if (!users.length) { showToast('কোনো অনুমোদিত ব্যবহারকারী নেই', 'warning'); return; }
+
+  showToast(`${users.length}টি কার্ড PDF তৈরি হচ্ছে...`, 'info');
+
+  const area = document.getElementById('bulkPrintArea');
+  area.innerHTML = '<div class="loader"><div class="spinner"></div> কার্ড প্রস্তুত হচ্ছে...</div>';
+
+  // Render all cards temporarily (hidden)
+  const tempDiv = document.createElement('div');
+  tempDiv.style.cssText = 'position:fixed;left:-9999px;top:0;z-index:-1';
+  document.body.appendChild(tempDiv);
+  tempDiv.innerHTML = users.map(u => generateCardHTML(u)).join('');
+
+  // Wait for images to load
+  await new Promise(r => setTimeout(r, 600));
+  users.forEach(u => generateQRForCard(u));
+  await new Promise(r => setTimeout(r, 600));
+
+  try {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation: 'landscape', unit: 'in', format: [6, 4] });
+    let first = true;
+    for (const u of users) {
+      const el = document.getElementById('fuelCardEl_' + u.serial);
+      if (!el) continue;
+      const canvas = await html2canvas(el, { scale:2, useCORS:true, backgroundColor:'#ffffff', width:576, height:384 });
+      if (!first) pdf.addPage([6,4], 'landscape');
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 6, 4);
+      first = false;
+    }
+    pdf.save(`FuelPass_Bulk_All_${users.length}_Cards.pdf`);
+    showToast(`✅ ${users.length}টি কার্ড PDF ডাউনলোড সম্পন্ন!`, 'success');
+  } catch(e) {
+    showToast('বাল্ক PDF তৈরিতে সমস্যা: ' + e.message, 'error');
+  }
+  document.body.removeChild(tempDiv);
+  area.innerHTML = `<div style="color:var(--success);padding:12px;font-size:14px">✅ ${users.length}টি কার্ড PDF ডাউনলোড হয়েছে।</div>`;
+}
+
+// ══════════════════════════════════════════
+// QR SCANNER
+// ══════════════════════════════════════════
+let html5QrCode = null;
+
+async function startScanner() {
+  document.getElementById('startScanBtn').disabled = true;
+  document.getElementById('stopScanBtn').disabled = false;
+  const readerEl = document.getElementById('reader');
+  readerEl.innerHTML = '';
+  try {
+    if (typeof Html5Qrcode !== 'undefined') {
+      html5QrCode = new Html5Qrcode('reader');
+      await html5QrCode.start(
+        { facingMode: 'environment' },
+        { fps: 10, qrbox: { width: 200, height: 200 } },
+        (decodedText) => processQRScan(decodedText),
+        () => {}
+      );
+    } else {
+      readerEl.innerHTML = `<div style="color:#fff;padding:20px;text-align:center;font-size:13px">
+        ⚠️ QR স্ক্যানার লাইব্রেরি লোড হয়নি।<br>নিচে ম্যানুয়াল ইনপুট ব্যবহার করুন।</div>`;
+    }
+  } catch(e) {
+    readerEl.innerHTML = `<div style="color:#fff;padding:20px;text-align:center;font-size:13px">
+      ❌ ক্যামেরা চালু করা যায়নি।<br>${e.message || 'Permission denied'}</div>`;
+  }
+}
+
+async function stopScanner() {
+  if (html5QrCode) {
+    try { await html5QrCode.stop(); } catch(e) {}
+    html5QrCode = null;
+  }
+  document.getElementById('reader').innerHTML = '<div style="color:#fff;font-size:14px;text-align:center">ক্যামেরা বন্ধ</div>';
+  document.getElementById('startScanBtn').disabled = false;
+  document.getElementById('stopScanBtn').disabled = true;
+}
+
+function switchScanEntryTab(tab, el) {
+  document.querySelectorAll('.scan-entry-tab').forEach(t => t.style.display = 'none');
+  document.querySelectorAll('#tab-scanner .tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('scan-entry-' + tab).style.display = 'block';
+  el.classList.add('active');
+}
+
+function processManualQR() {
+  const val = document.getElementById('manualQR').value.trim();
+  if (!val) { showToast('QR ডেটা দিন', 'error'); return; }
+  processQRScan(val);
+}
+
+async function processManualSerial() {
+  const serial = document.getElementById('manualSerial').value.trim();
+  if (!serial) { showToast('সিরিয়াল নম্বর দিন', 'error'); return; }
+  const approved = await dbGet('approved');
+  if (!approved) { showScanResult('error', '❌ ডেটাবেস ত্রুটি', 'ব্যবহারকারী তথ্য পাওয়া যায়নি।'); return; }
+  let foundKey = null, found = null;
+  Object.entries(approved).forEach(([k,v]) => {
+    if (v.serial === serial || v.serial === serial.padStart(5,'0')) { foundKey = k; found = v; }
+  });
+  if (!found) { showScanResult('error', '❌ পাওয়া যায়নি', `সিরিয়াল <strong>${serial}</strong> দিয়ে কোনো ব্যবহারকারী নেই।`); return; }
+  await processFuelEntry(foundKey, found);
+}
+
+async function processManualPhone() {
+  const phone = document.getElementById('manualPhone').value.trim();
+  if (!phone) { showToast('ফোন নম্বর দিন', 'error'); return; }
+  const approved = await dbGet('approved');
+  if (!approved) { showScanResult('error', '❌ ডেটাবেস ত্রুটি', 'ব্যবহারকারী তথ্য পাওয়া যায়নি।'); return; }
+  let foundKey = null, found = null;
+  Object.entries(approved).forEach(([k,v]) => {
+    if (v.phone === phone) { foundKey = k; found = v; }
+  });
+  if (!found) { showScanResult('error', '❌ পাওয়া যায়নি', `ফোন <strong>${phone}</strong> দিয়ে কোনো নিবন্ধিত ব্যবহারকারী নেই।`); return; }
+  await processFuelEntry(foundKey, found);
+}
+
+async function processQRScan(qrData) {
+  let userData;
+  try { userData = JSON.parse(qrData); } catch(e) {
+    showScanResult('error', '❌ অবৈধ QR কোড', 'এই QR কোডটি বৈধ নয়।');
+    return;
+  }
+  const { id, serial, phone } = userData;
+  const approved = await dbGet('approved');
+  if (!approved) { showScanResult('error', '❌ ডেটাবেস ত্রুটি', 'ব্যবহারকারী তথ্য পাওয়া যায়নি।'); return; }
+  let foundKey = null, found = null;
+  Object.entries(approved).forEach(([k,v]) => {
+    if (v.serial === serial || v.trackingId === id || v.phone === phone) { foundKey = k; found = v; }
+  });
+  if (!found) { showScanResult('error', '❌ ব্যবহারকারী পাওয়া যায়নি', 'এই কার্ডটি সিস্টেমে নেই।'); return; }
+  await processFuelEntry(foundKey, found);
+}
+
+async function processFuelEntry(foundKey, found) {
+  const settings = await dbGet('fuelSettings') || { amount: 5, lockDays: 4 };
+  const now = Date.now();
+  const lockMs = settings.lockDays * 24 * 60 * 60 * 1000;
+  if (found.lastFuel && (now - new Date(found.lastFuel).getTime()) < lockMs) {
+    const nextDate = new Date(new Date(found.lastFuel).getTime() + lockMs);
+    showScanResult('block', '⛔ এখনও নিতে পারবেন না', `
+      <strong>${found.name}</strong> ইতোমধ্যে তেল নিয়েছেন।<br>
+      পরবর্তী তারিখ: <strong>${nextDate.toLocaleDateString('bn-BD')}</strong><br>
+      নির্ধারিত সময়ের আগে পুনরায় নিতে পারবেন না।`);
+    logFuelEvent(found, 'blocked', settings.amount);
+    return;
+  }
+  // SUCCESS - Give fuel
+  await dbUpdate(`approved/${foundKey}`, {
+    lastFuel: new Date().toISOString(),
+    fuelCount: (found.fuelCount || 0) + 1,
+    totalFuel: (found.totalFuel || 0) + settings.amount
+  });
+  logFuelEvent(found, 'success', settings.amount);
+  showScanResult('success', '✅ জ্বালানি দেওয়া হয়েছে', `
+    <div style="font-size:16px;font-weight:700;margin-bottom:6px">${found.name}</div>
+    <div style="font-size:13px;color:var(--text2)">${found.occupation}</div>
+    <div style="margin:12px 0;padding:10px;background:var(--surface2);border-radius:8px">
+      <div style="font-size:28px;font-weight:800;color:var(--success)">${settings.amount} লিটার</div>
+      <div style="font-size:12px;color:var(--text2)">জ্বালানি প্রদান করা হয়েছে</div>
+    </div>
+    <div style="font-size:12px;color:var(--text2)">সিরিয়াল: ${found.serial} | সময়: ${new Date().toLocaleTimeString('bn-BD')}</div>`);
+  loadTodayLogs();
+}
+
+function showScanResult(type, title, body) {
+  const card = document.getElementById('scanResultCard');
+  const titleEl = document.getElementById('scanResultTitle');
+  const bodyEl = document.getElementById('scanResultBody');
+  card.style.display = 'block';
+  card.style.borderTop = `4px solid var(--${type === 'success' ? 'success' : type === 'block' ? 'warning' : 'danger'})`;
+  titleEl.textContent = title;
+  bodyEl.innerHTML = `<div style="font-size:14px;line-height:1.7">${body}</div>`;
+}
+
+async function loadTodayLogs() {
+  const logs = await dbGet('logs');
+  const today = new Date().toDateString();
+  const tbody = document.getElementById('todayLogsBody');
+  if (!logs) { tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--text2);padding:16px">আজ কোনো বিতরণ নেই</td></tr>'; return; }
+  const todayLogs = Object.values(logs)
+    .filter(l => l.type === 'fuel' && new Date(l.time).toDateString() === today)
+    .reverse().slice(0, 10);
+  if (!todayLogs.length) { tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--text2);padding:16px">আজ কোনো বিতরণ নেই</td></tr>'; return; }
+  tbody.innerHTML = todayLogs.map(l => `
+    <tr>
+      <td>${l.userName}</td>
+      <td>${new Date(l.time).toLocaleTimeString('bn-BD')}</td>
+      <td><span class="badge badge-${l.status==='success'?'success':'warning'}">${l.amount || 0}L</span></td>
+    </tr>`).join('');
+}
+
+async function logFuelEvent(user, status, amount) {
+  await dbPush('logs', {
+    type: 'fuel', userName: user.name, userSerial: user.serial,
+    userPhone: user.phone, time: new Date().toISOString(),
+    status, amount: status === 'success' ? amount : 0
+  });
+}
+async function addAdminLog(action, detail) {
+  await dbPush('logs', { type: 'admin', action, detail, time: new Date().toISOString() });
+}
+
+// ══════════════════════════════════════════
+// FUEL SETTINGS
+// ══════════════════════════════════════════
+async function loadFuelSettings() {
+  const settings = await dbGet('fuelSettings');
+  if (settings) {
+    document.getElementById('fuelAmount').value = settings.amount;
+    document.getElementById('lockDays').value = settings.lockDays;
+    fuelSettings = settings;
+  }
+}
+async function saveFuelSettings() {
+  const amount = parseInt(document.getElementById('fuelAmount').value);
+  const lockDays = parseInt(document.getElementById('lockDays').value);
+  await dbSet('fuelSettings', { amount, lockDays });
+  fuelSettings = { amount, lockDays };
+  addAdminLog('সেটিং', `জ্বালানি: ${amount}L, লক: ${lockDays} দিন সেট করা হয়েছে`);
+  showToast('সেটিং সংরক্ষিত হয়েছে', 'success');
+  loadDashboard();
+}
+
+// ══════════════════════════════════════════
+// LOAD LOGS
+// ══════════════════════════════════════════
+async function loadFuelLogs() {
+  const logs = await dbGet('logs');
+  const fuelLogs = logs ? Object.values(logs).filter(l => l.type === 'fuel').reverse() : [];
+  const adminLogs = logs ? Object.values(logs).filter(l => l.type === 'admin').reverse() : [];
+  const tbody = document.getElementById('fuelLogsBody');
+  const abody = document.getElementById('adminLogsBody');
+  if (!fuelLogs.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:20px">কোনো লগ নেই</td></tr>'; }
+  else tbody.innerHTML = fuelLogs.map(l => `
+    <tr>
+      <td>${l.userName}</td>
+      <td>${l.userSerial}</td>
+      <td>${new Date(l.time).toLocaleDateString('bn-BD')}</td>
+      <td>${new Date(l.time).toLocaleTimeString('bn-BD')}</td>
+      <td>${l.amount || 0}L</td>
+      <td><span class="badge badge-${l.status==='success'?'success':'warning'}">${l.status==='success'?'✅ সফল':'⛔ ব্লক'}</span></td>
+    </tr>`).join('');
+  if (!adminLogs.length) { abody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--text2);padding:20px">কোনো লগ নেই</td></tr>'; }
+  else abody.innerHTML = adminLogs.map(l => `
+    <tr>
+      <td><strong>${l.action}</strong></td>
+      <td>${l.detail}</td>
+      <td>${new Date(l.time).toLocaleString('bn-BD')}</td>
+    </tr>`).join('');
+}
+async function loadAdminLogs() { loadFuelLogs(); }
+
+// ══════════════════════════════════════════
+// MODALS
+// ══════════════════════════════════════════
+function closeModal(id) {
+  document.getElementById(id).classList.add('hidden');
+}
+
+// ══════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════
+function showToast(msg, type = 'info') {
+  const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `<span class="toast-icon">${icons[type]}</span><span class="toast-msg">${msg}</span>`;
+  document.getElementById('toastContainer').appendChild(toast);
+  setTimeout(() => toast.remove(), 3500);
+}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+// Load Html5Qrcode dynamically
+const qrScript = document.createElement('script');
+qrScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js';
+document.head.appendChild(qrScript);
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(o => {
+  o.addEventListener('click', e => { if (e.target === o) o.classList.add('hidden'); });
+});
+
+// Init
+showPage('home');
+</script>
+</body>
+</html>
